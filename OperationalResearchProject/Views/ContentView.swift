@@ -16,7 +16,47 @@ struct ContentView: View {
         
         NavigationView {
             
-            BackgroundView {
+            ZStack {
+                
+                Image("UBIT")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .ignoresSafeArea()
+                    .blur(radius: 13)
+                
+                VStack {
+                    
+                    HStack {
+                        
+                        Image(systemName: "scissors.circle")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .foregroundColor(.white)
+                            .rotationEffect(.degrees(-90))
+                        
+                        Text("STYLO HAIR SALOON")
+                            .font(.system(size: 20, weight: .bold))
+                            .padding()
+                        //                            .background(.black.opacity(0.1))
+                            .cornerRadius(20)
+                            .foregroundColor(.white)
+                        
+                        
+                        Circle()
+                            .frame(width: 50, height: 50)
+                            .foregroundColor(.white)
+                            .overlay {
+                                Image(systemName: "comb")
+                                    .scaleEffect(2)
+                                    .rotationEffect(.degrees(135))
+                            }
+                        
+                        
+                    }
+                    
+                    Spacer()
+                }
+                
                 VStack(spacing: 15) {
                     
                     Spacer()
@@ -24,46 +64,49 @@ struct ContentView: View {
                     NavigationLink {
                         QueryingView()
                     } label: {
-                        Text("Quering Model")
-                            .foregroundColor(.white)
-                            .frame(width: width - 50, height: 50)
-                            .background(.blue)
-                            .cornerRadius(20)
+                        HStack {
+                            
+                            Spacer()
+                            
+                            Image(systemName: "doc.text.magnifyingglass")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                            
+                            Text("Quering Model")
+                                .frame(width: 150)
+                            
+                            Spacer()
+                        }
+                        .foregroundColor(.white)
+                        .frame(width: width - 50, height: 50)
+                        .background(.black)
+                        .cornerRadius(30)
                     }
                     
                     NavigationLink {
                         
                     } label: {
-                        Text("Random Number")
-                            .foregroundColor(.white)
-                            .frame(width: width - 50, height: 50)
-                            .background(.green)
-                            .cornerRadius(20)
+                        HStack {
+                            
+                            Spacer()
+                            
+                            Image(systemName: "dice")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                            
+                            Text("Random Number")
+                                .frame(width: 150)
+                            
+                            Spacer()
+                        }
+                        .foregroundColor(.black)
+                        .frame(width: width - 50, height: 50)
+                        .background(.white)
+                        .cornerRadius(30)
                     }
                 }
                 .padding()
             }
-        }
-    }
-}
-
-struct BackgroundView<Content : View>: View {
-
-    var content: () -> Content
-    
-    var body: some View {
-        
-        ZStack {
-            
-            Image("UBIT")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .offset(x: -140)
-                .ignoresSafeArea()
-                .blur(radius: 10)
-            
-            
-            content()
         }
     }
 }

@@ -38,7 +38,7 @@ struct QueryingView: View {
             }
             
             Section {
-                              
+                
                 Stepper("Number of Servers: \(viewModel.numberOfServers)", value: $viewModel.numberOfServers, in: 0...10)
             }
             
@@ -64,12 +64,15 @@ struct QueryingView: View {
             
             if let error = viewModel.errorMessage {
                 Text(error)
+                    .foregroundColor(.red)
             }
             else if let result = viewModel.result {
                 Text(result.toText())
+                    .foregroundColor(.green)
             }
-
+            
         }
+        .scrollDismissesKeyboard(.interactively)
         .listRowSeparator(.hidden, edges: .all)
         .navigationTitle("Quering Model")
         .navigationBarBackButtonHidden(true)

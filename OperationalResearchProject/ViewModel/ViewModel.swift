@@ -19,6 +19,24 @@ class QueuingViewModel: ObservableObject {
     
     func calculateResults() {
         
+        if numberOfServers == 0 && arrivalRate == "" && serviceRate == "" {
+            self.errorMessage = "Please Enter Number of Servers, Arrival Rate & Service Rate"
+            return
+        }
+        
+        if numberOfServers == 0 {
+            self.errorMessage = "Please Increase Number of Servers"
+            return
+        }
+        else if arrivalRate == "" {
+            self.errorMessage = "Please Enter Arrival Rate"
+            return
+        }
+        else if serviceRate == "" {
+            self.errorMessage = "Please Enter Service Rate"
+            return
+        }
+        
         guard let arrivalRate = Double(self.arrivalRate) else {
             self.errorMessage = "Arrival Rate is not in Correct Format"
             self.result = nil
