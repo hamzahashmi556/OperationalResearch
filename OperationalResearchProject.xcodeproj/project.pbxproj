@@ -12,7 +12,8 @@
 		AB5018172A8A75FF00179B02 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB5018162A8A75FF00179B02 /* Assets.xcassets */; };
 		AB50181A2A8A75FF00179B02 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB5018192A8A75FF00179B02 /* Preview Assets.xcassets */; };
 		AB5018222A8A7A2C00179B02 /* QueryingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5018212A8A7A2C00179B02 /* QueryingView.swift */; };
-		AB5018242A8A8D9000179B02 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5018232A8A8D9000179B02 /* Enum.swift */; };
+		AB5018262A8AB85F00179B02 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5018252A8AB85F00179B02 /* ViewModel.swift */; };
+		AB5018292A8ABC9C00179B02 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5018282A8ABC9C00179B02 /* Result.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,7 +23,8 @@
 		AB5018162A8A75FF00179B02 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB5018192A8A75FF00179B02 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AB5018212A8A7A2C00179B02 /* QueryingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryingView.swift; sourceTree = "<group>"; };
-		AB5018232A8A8D9000179B02 /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
+		AB5018252A8AB85F00179B02 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		AB5018282A8ABC9C00179B02 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,10 +57,11 @@
 		AB5018112A8A75FD00179B02 /* OperationalResearchProject */ = {
 			isa = PBXGroup;
 			children = (
+				AB5018272A8ABC8F00179B02 /* Model */,
 				AB5018202A8A760700179B02 /* Views */,
+				AB50182A2A8AC72000179B02 /* ViewModel */,
 				AB5018162A8A75FF00179B02 /* Assets.xcassets */,
 				AB5018182A8A75FF00179B02 /* Preview Content */,
-				AB5018232A8A8D9000179B02 /* Enum.swift */,
 			);
 			path = OperationalResearchProject;
 			sourceTree = "<group>";
@@ -79,6 +82,22 @@
 				AB5018212A8A7A2C00179B02 /* QueryingView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		AB5018272A8ABC8F00179B02 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AB5018282A8ABC9C00179B02 /* Result.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AB50182A2A8AC72000179B02 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				AB5018252A8AB85F00179B02 /* ViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,9 +170,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB5018292A8ABC9C00179B02 /* Result.swift in Sources */,
 				AB5018152A8A75FD00179B02 /* ContentView.swift in Sources */,
+				AB5018262A8AB85F00179B02 /* ViewModel.swift in Sources */,
 				AB5018132A8A75FD00179B02 /* OperationalResearchProjectApp.swift in Sources */,
-				AB5018242A8A8D9000179B02 /* Enum.swift in Sources */,
 				AB5018222A8A7A2C00179B02 /* QueryingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

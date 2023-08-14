@@ -13,49 +13,67 @@ struct QueryingView: View {
     
     @Environment(\.dismiss) var dismiss
     
-    //    @State var serverType: ServerType = .none
-    @State private var serverType = 0
-    @State private var numberOfServers = ""
+    @StateObject var viewModel = QueuingViewModel()
     
     var body: some View {
         
-//        ZStack {
+        List {
             
-            List {
+            Section {
                 
-                VStack {
+                Text("Server Type")
+                
+                Picker(selection: $viewModel.serverType, label: Text("Picker")) {
                     
-                    Text("Server Type")
+                    Text("M/M/C")
+                        .tag(0)
                     
-                    Picker(selection: $serverType, label: Text("Picker")) {
-                        Text(ServerType.mmc.rawValue)
-                            .tag(0)
-                        
-                        Text(ServerType.mmg.rawValue)
-                            .tag(1)
-                        
-                        Text(ServerType.ggc.rawValue)
-                            .tag(2)
-                    }
-                    .pickerStyle(.segmented)
+                    Text("M/M/G")
+                        .tag(1)
+                    
+                    Text("G/G/C")
+                        .tag(2)
                 }
-                .frame(width: width - 50, alignment: .leading)
-                .background(.white)
-                
-                Section {
-                    
-                    Text("Number of Servers")
-                    
-                    TextField("Enter Number of Servers", text: $numberOfServers)
-                        .keyboardType(.numberPad)
-                }
-                
-                Text("Mean of InterArrival")
+                .pickerStyle(.segmented)
             }
-            .listRowSeparator(.hidden, edges: .all)
-//        }
+            
+            Section {
+                              
+                Stepper("Number of Servers: \(viewModel.numberOfServers)", value: $viewModel.numberOfServers, in: 0...10)
+            }
+            
+            Section {
+                Text("Arrival Rate (ƛ)")
+                
+                TextField("Mean of Arrival Rate", text: $viewModel.arrivalRate)
+                    .keyboardType(.numberPad)
+            }
+            
+            Section {
+                Text("Service Rate (μ)")
+                
+                TextField("Mean of Service Rate", text: $viewModel.serviceRate)
+                    .keyboardType(.numberPad)
+            }
+            
+            Button {
+                viewModel.calculateResults()
+            } label: {
+                Text("Calculate Results")
+            }
+            
+            if let error = viewModel.errorMessage {
+                Text(error)
+            }
+            else if let result = viewModel.result {
+                Text(result.toText())
+            }
+
+        }
+        .listRowSeparator(.hidden, edges: .all)
         .navigationTitle("Quering Model")
         .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
@@ -67,30 +85,6 @@ struct QueryingView: View {
                 }
                 .tint(.black)
             }
-        }
-    }
-}
-
-struct NavigationBar: View {
-    
-    @State var title: String
-    @State var showBackButton: Bool
-    
-    var body: some View {
-        
-        ZStack {
-            
-            HStack {
-                
-                Image(systemName: "arrow.left")
-                    .padding()
-                
-                Spacer()
-            }
-            
-            Text(title)
-                .font(.system(size: 20, weight: .black))
-                .lineLimit(1)
         }
     }
 }
