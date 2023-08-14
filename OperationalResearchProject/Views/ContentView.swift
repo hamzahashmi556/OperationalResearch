@@ -8,14 +8,63 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    private let width = UIScreen.main.bounds.width
+    private let height = UIScreen.main.bounds.height
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        
+        NavigationView {
+            
+            BackgroundView {
+                VStack(spacing: 15) {
+                    
+                    Spacer()
+                    
+                    NavigationLink {
+                        QueryingView()
+                    } label: {
+                        Text("Quering Model")
+                            .foregroundColor(.white)
+                            .frame(width: width - 50, height: 50)
+                            .background(.blue)
+                            .cornerRadius(20)
+                    }
+                    
+                    NavigationLink {
+                        
+                    } label: {
+                        Text("Random Number")
+                            .foregroundColor(.white)
+                            .frame(width: width - 50, height: 50)
+                            .background(.green)
+                            .cornerRadius(20)
+                    }
+                }
+                .padding()
+            }
         }
-        .padding()
+    }
+}
+
+struct BackgroundView<Content : View>: View {
+
+    var content: () -> Content
+    
+    var body: some View {
+        
+        ZStack {
+            
+            Image("UBIT")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .offset(x: -140)
+                .ignoresSafeArea()
+                .blur(radius: 10)
+            
+            
+            content()
+        }
     }
 }
 
