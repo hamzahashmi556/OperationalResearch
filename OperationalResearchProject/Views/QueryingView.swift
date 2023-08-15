@@ -61,6 +61,7 @@ struct QueryingView: View {
             } label: {
                 Text("Calculate Results")
             }
+            .tint(.blue)
             
             if let error = viewModel.errorMessage {
                 Text(error)
@@ -75,8 +76,9 @@ struct QueryingView: View {
         .scrollDismissesKeyboard(.interactively)
         .listRowSeparator(.hidden, edges: .all)
         .navigationTitle("Quering Model")
-        .navigationBarBackButtonHidden(true)
+//        .navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.large)
+        /*
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
@@ -89,6 +91,8 @@ struct QueryingView: View {
                 .tint(.black)
             }
         }
+         */
+        .tint(.black)
     }
 }
 
