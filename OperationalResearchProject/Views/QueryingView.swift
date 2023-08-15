@@ -46,14 +46,14 @@ struct QueryingView: View {
                 Text("Arrival Rate (ƛ)")
                 
                 TextField("Mean of Arrival Rate", text: $viewModel.arrivalRate)
-                    .keyboardType(.numberPad)
+                    .keyboardType(.decimalPad)
             }
             
             Section {
                 Text("Service Rate (μ)")
                 
                 TextField("Mean of Service Rate", text: $viewModel.serviceRate)
-                    .keyboardType(.numberPad)
+                    .keyboardType(.decimalPad)
             }
             
             Button {
