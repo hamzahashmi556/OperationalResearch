@@ -49,6 +49,7 @@ struct ContentView: View {
                                 Image(systemName: "comb")
                                     .scaleEffect(2)
                                     .rotationEffect(.degrees(135))
+                                    .foregroundColor(.black)
                             }
                         
                         
@@ -56,6 +57,44 @@ struct ContentView: View {
                     
                     Spacer()
                 }
+                
+                ZStack {
+                    
+                    VStack(spacing: 10) {
+                        
+                        Text("Group Members")
+                            .font(.headline)
+                        
+                        HStack {
+                            Text("Arham Sharif")
+                            
+                            Spacer()
+                            
+                            Text("EB21102022")
+                        }
+                        
+                        HStack {
+                            Text("Hamza Alam Hashmi")
+                            
+                            Spacer()
+                            
+                            Text("EB21102031")
+                        }
+                        
+                        HStack {
+                            Text("Muhammad Riaz Akram")
+                            
+                            Spacer()
+                            
+                            Text("EB21102077")
+                        }
+                    }
+                }
+                .frame(width: width - 80)
+                .padding()
+                .background(.black.opacity(0.7))
+                .cornerRadius(10)
+                
                 
                 VStack(spacing: 15) {
                     
@@ -79,7 +118,7 @@ struct ContentView: View {
                         }
                         .foregroundColor(.white)
                         .frame(width: width - 50, height: 50)
-                        .background(.black)
+                        .background(.black.opacity(0.5))
                         .cornerRadius(30)
                     }
                     
@@ -114,5 +153,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .preferredColorScheme(.dark)
     }
 }

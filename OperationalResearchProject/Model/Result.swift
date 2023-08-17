@@ -15,12 +15,17 @@ struct QueuingResults {
     let avgTimeInQueue: Double
     
     func toText() -> String {
-        let utilization = String(format: "%.2f", utilization)
-        let avgNumCustomersSystem = String(format: "%.2f", avgNumCustomersSystem)
-        let avgNumCustomersQueue = String(format: "%.2f", avgNumCustomersQueue)
-        let avgTimeInSystem = String(format: "%.2f", avgTimeInSystem)
-        let avgTimeInQueue = String(format: "%.2f", avgTimeInQueue)
-
-        return "Utilization: \(utilization)\nAverage  Number of Customers in System: \(avgNumCustomersSystem)\nAverage Number of Customers in Queue: \(avgNumCustomersQueue)\nAverage Time in System: \(avgTimeInSystem)\nAverage Time in Queue: \(avgTimeInQueue)"
+        
+        let utilization = "Server Utilization (P): \(String(format: "%.3f", utilization))"
+        
+        let avgNumCustomersSystem = "Average Customers in System (L): \(String(format: "%.3f", avgNumCustomersSystem))"
+        
+        let avgNumCustomersQueue = "Average Customers in Queue (Lq): \(String(format: "%.3f", avgNumCustomersQueue))"
+        
+        let avgTimeInSystem = "Average Time in System (W): \(String(format: "%.3f", avgTimeInSystem))"
+        
+        let avgTimeInQueue = "Average Time in Queue (Wq): \(String(format: "%.3f", avgTimeInQueue))"
+        
+        return "\(utilization)\n\(avgNumCustomersSystem)\n\(avgNumCustomersQueue)\n\(avgTimeInSystem)\n\(avgTimeInQueue)"
     }
 }
