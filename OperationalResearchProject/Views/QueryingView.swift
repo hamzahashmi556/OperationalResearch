@@ -40,7 +40,9 @@ struct QueryingView: View {
                 .pickerStyle(.segmented)
             }
             
-            NumberOfServersView()
+            if viewModel.serverType != 3 {
+                NumberOfServersView()
+            }
             
             if viewModel.serverType == 0 {
                 ArrivalRateView()
@@ -69,6 +71,28 @@ struct QueryingView: View {
                 ObservedFrequencies()
                 
                 DistributionType()
+                
+                if viewModel.fitTestResult != nil {
+                    Section {
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            
+                            HStack(spacing: 5) {
+                                
+                                ColoumnView(title: "Deaths", data: viewModel.bins, showTotal: false)
+                                
+                                ColoumnView(title: "Observed Frequency", data: viewModel.observedFrequencies, showTotal: true)
+                                
+                                ColoumnView(title: "MLE", data: viewModel.MLE, showTotal: true)
+                                
+                                ColoumnView(title: "EXP.FREQ", data: viewModel.expectedFrequencies, showTotal: true)
+                                
+                                ColoumnView(title: "Chi Square", data: viewModel.chiSquareResults, showTotal: true)
+                                
+                            }
+                        }
+                    }
+                }
             }
             
             Button {
@@ -211,6 +235,31 @@ struct QueryingView: View {
             .pickerStyle(.segmented)
         }
     }
+    
+    func ColoumnView(title: String, data: [Double], showTotal: Bool) -> some View {
+        Group {
+            VStack {
+                Text(title)
+                    .font(.headline)
+                    .frame(height: 40)
+                
+                Divider()
+                
+                ForEach(data, id: \.self) { element in
+                    
+                    Text(String(element))
+                        .frame(height: 40)
+                    
+                    Divider()
+                }
+                
+                Text(showTotal ? String(data.reduce(0, +)) : "")
+                    .frame(height: 40)
+            }
+            
+            Divider()
+        }
+    }
 }
 
 struct QueryingView_Previews: PreviewProvider {
@@ -219,5 +268,6 @@ struct QueryingView_Previews: PreviewProvider {
             QueryingView()
         }
         .preferredColorScheme(.dark)
+        .navigationViewStyle(.stack)
     }
 }

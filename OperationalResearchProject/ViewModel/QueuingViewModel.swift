@@ -27,6 +27,13 @@ class QueuingViewModel: ObservableObject {
     @Published var serviceVarianceUniformDist = ""  { didSet { if isCalculated { calculateResults() } } }
     
     // Good Fit Test
+    @Published var bins: [Double] = []
+    @Published var observedFrequencies: [Double] = []
+    @Published var MLE: [Double] = []
+    @Published var PMF: [Double] = []
+    @Published var expectedFrequencies: [Double] = []
+    @Published var chiSquareResults: [Double] = []
+    
     @Published var tfBins = ""
     @Published var tfFrequencies = ""
     @Published var distributionIndex = 0
@@ -199,21 +206,23 @@ class QueuingViewModel: ObservableObject {
             return nil
         }
         
-        let bins = tfBins.split(separator: ",").map { Int($0.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0 }
-        let observedFrequencies = tfFrequencies.split(separator: ",").map { Int($0.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0 }
-        
+        self.bins = tfBins.split(separator: ",").map { Double(Int($0.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0) }
+        self.observedFrequencies = tfFrequencies.split(separator: ",").map { Double($0.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0 }
+
         guard bins.count == observedFrequencies.count else {
             return nil
         }
         
         let totalObserved = observedFrequencies.reduce(0, +)
-        let MLE = zip(bins, observedFrequencies).map { $0 * $1 }.reduce(0, +)
+        self.MLE = zip(bins, observedFrequencies).map({ $0 * $1 })
+        let TotalMLE = self.MLE.reduce(0, +)
+        //self.MLE = zip(bins, observedFrequencies).map { $0 * $1 }.reduce(0, +)
         
-        var expectedFrequencies: [Double] = []
+        self.expectedFrequencies = []
         
         // Poission Distribution
         if distributionIndex == 0 {
-            let lambda = Double(MLE) / Double(totalObserved)
+            let lambda = Double(TotalMLE) / Double(totalObserved)
             
             for i in 0..<bins.count {
                 let probability = (exp(-lambda) * pow(lambda, Double(i))) / factorialize(i)
@@ -227,7 +236,7 @@ class QueuingViewModel: ObservableObject {
             expectedFrequencies = Array(repeating: expectedFrequency, count: bins.count)
         }
         
-        var chiSquareResults: [Double] = []
+        self.chiSquareResults = []
         for i in 0..<bins.count {
             let observed = Double(observedFrequencies[i])
             let expected = expectedFrequencies[i]
@@ -235,7 +244,7 @@ class QueuingViewModel: ObservableObject {
         }
 //        print(chiSquareResult)
         
-        let degreesOfFreedom = bins.count - 1
+        let degreesOfFreedom = bins.count - 1 - 1
         let chiSquareCriticalValues: [Double: [Int: Double]] = [
             0.05: [
                 1: 3.841,
@@ -251,7 +260,8 @@ class QueuingViewModel: ObservableObject {
         let totalChiSquare = chiSquareResults.reduce(0, +)
         
         if let newCriticalValue = chiSquareCriticalValues[significanceLevel]?[degreesOfFreedom] {
-            return FitTest(chiSquare: totalChiSquare, significanceLevel: significanceLevel, criticalValue: newCriticalValue, hypothesis: totalChiSquare <= newCriticalValue)
+            self.result = nil
+            return FitTest(chiSquare: totalChiSquare, significanceLevel: significanceLevel, criticalValue: newCriticalValue)
         }
         return nil
     }
@@ -266,7 +276,7 @@ class QueuingViewModel: ObservableObject {
     
     func isValidate() -> Bool {
         // M/M/C
-        if numberOfServers == 0 {
+        if numberOfServers == 0 && serverType != 3 {
             self.errorMessage = "Please Increase Number of Servers"
             return false
         }
@@ -296,7 +306,7 @@ class QueuingViewModel: ObservableObject {
             }
         }
         // G/G/C
-        else if serverType == 2{
+        else if serverType == 2 {
             if arrivalMeanOfExpDist == "" {
                 self.errorMessage = "Please Enter Arrival Mean Of Exponential Distribution"
                 return false

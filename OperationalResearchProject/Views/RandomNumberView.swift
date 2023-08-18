@@ -97,6 +97,7 @@ struct RandomNumberView: View {
                 }
             }
         }
+        .scrollDismissesKeyboard(.interactively)
         .onAppear {
 //            viewModel.calculateValues(lambda: lambda, meo: meo)
         }

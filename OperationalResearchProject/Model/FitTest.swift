@@ -11,13 +11,14 @@ struct FitTest {
     var chiSquare: Double
     var significanceLevel: Double
     var criticalValue: Double
-    var hypothesis: Bool
     
     func toResult() -> String {
+        let isHypothesis = chiSquare <= criticalValue
         let chiResult = "Chi Square Value: \(String(format: "%.3f", chiSquare))"
         let significanceLevel = "Significance Level Value: \(String(format: "%.3f", significanceLevel))"
         let criticalValue = "Critical Value: \(String(format: "%.3f", criticalValue))"
-        let hypothesis = hypothesis ? "Null Hypothesis" : "Alter Hypothesis"
+        let hypothesis = isHypothesis ? "Null Hypothesis" : "Alternative Hypothesis"
+        
         
         return "\(chiResult)\n\(significanceLevel)\n\(criticalValue)\n\(hypothesis)"
     }

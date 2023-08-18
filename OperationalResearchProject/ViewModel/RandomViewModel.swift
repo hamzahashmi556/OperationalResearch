@@ -220,23 +220,6 @@ class RandomViewModel: ObservableObject {
         print("\n")
     }
     
-
-    
-//    func getInterArrival() {
-//        var interArrivals: [Double] = []
-//
-//        for i in 0 .. 9 {
-//            let random = Double.random(in: 0...1)
-//            if i == 0 {
-//                interArrivals.append(0)
-//            }
-//            else {
-//                let
-//                if let index =
-//            }
-//        }
-//    }
-    
     //MARK: Helper Functions
     private func findInterArrivalIndex() -> Double? {
         
