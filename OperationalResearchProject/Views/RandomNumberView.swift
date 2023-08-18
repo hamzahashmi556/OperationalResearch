@@ -11,8 +11,8 @@ struct RandomNumberView: View {
     
     @StateObject var viewModel = RandomViewModel()
     
-    @State var lambda = "2.15"
-    @State var meo = "1.58"
+    @State var lambda = ""
+    @State var meo = ""
     
     var body: some View {
         List {
@@ -98,7 +98,7 @@ struct RandomNumberView: View {
             }
         }
         .onAppear {
-            viewModel.calculateValues(lambda: lambda, meo: meo)
+//            viewModel.calculateValues(lambda: lambda, meo: meo)
         }
     }
     
