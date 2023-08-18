@@ -33,6 +33,9 @@ struct QueryingView: View {
                     
                     Text("G/G/C")
                         .tag(2)
+                    
+                    Text("Fit Test")
+                        .tag(3)
                 }
                 .pickerStyle(.segmented)
             }
@@ -51,7 +54,7 @@ struct QueryingView: View {
                 
                 MinimumUniformDistribution()
             }
-            else {
+            else if viewModel.serverType == 2 {
                 ArrivalMeanExponentialDistribution()
                 
                 ArrivalVarianceExponentialDistribution()
@@ -60,11 +63,18 @@ struct QueryingView: View {
                 
                 ServiceVarianceNormalDistribution()
             }
+            else {
+                BinsView()
+                
+                ObservedFrequencies()
+                
+                DistributionType()
+            }
             
             Button {
                 viewModel.calculateResults()
             } label: {
-                Text("Show Results")
+                Text("Calculate")
             }
             .tint(.blue)
             
@@ -74,6 +84,10 @@ struct QueryingView: View {
             }
             else if let result = viewModel.result {
                 Text(result.toText())
+                    .foregroundColor(.green)
+            }
+            else if let result = viewModel.fitTestResult {
+                Text(result.toResult())
                     .foregroundColor(.green)
             }
             
@@ -163,6 +177,38 @@ struct QueryingView: View {
             
             TextField("Maximum Uniform Distribution", text: $viewModel.maximumUniformDist)
                 .keyboardType(.decimalPad)
+        }
+    }
+    
+    func BinsView() -> some View {
+        Section {
+            Text("Enter Comma Seperated Bins")
+
+            TextField("Comma Seperated Bins", text: $viewModel.tfBins)
+                .keyboardType(.numberPad)
+        }
+    }
+    
+    func ObservedFrequencies() -> some View {
+        Section {
+            
+            Text("Enter Comma seperated Observed Frequencies")
+            
+            TextField("Expected Frequencies", text: $viewModel.tfFrequencies)
+        }
+    }
+    
+    func DistributionType() -> some View {
+        Section {
+            Picker("Distribution", selection: $viewModel.distributionIndex) {
+                
+                Text("Poission Distribution")
+                    .tag(0)
+                
+                Text("Uniform Distribution")
+                    .tag(1)
+            }
+            .pickerStyle(.segmented)
         }
     }
 }

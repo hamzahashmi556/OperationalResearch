@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AB48D3512A8D756800792DC4 /* SimulationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB48D3502A8D756800792DC4 /* SimulationViewModel.swift */; };
+		AB48D3512A8D756800792DC4 /* RandomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB48D3502A8D756800792DC4 /* RandomViewModel.swift */; };
+		AB48D3612A8EB1D900792DC4 /* FitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB48D3602A8EB1D900792DC4 /* FitTest.swift */; };
+		AB48D3632A8EDDEB00792DC4 /* RandomNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB48D3622A8EDDEB00792DC4 /* RandomNumberView.swift */; };
 		AB5018132A8A75FD00179B02 /* OperationalResearchProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5018122A8A75FD00179B02 /* OperationalResearchProjectApp.swift */; };
 		AB5018152A8A75FD00179B02 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5018142A8A75FD00179B02 /* ContentView.swift */; };
 		AB5018172A8A75FF00179B02 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB5018162A8A75FF00179B02 /* Assets.xcassets */; };
@@ -18,7 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AB48D3502A8D756800792DC4 /* SimulationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationViewModel.swift; sourceTree = "<group>"; };
+		AB48D3502A8D756800792DC4 /* RandomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomViewModel.swift; sourceTree = "<group>"; };
+		AB48D3602A8EB1D900792DC4 /* FitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitTest.swift; sourceTree = "<group>"; };
+		AB48D3622A8EDDEB00792DC4 /* RandomNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumberView.swift; sourceTree = "<group>"; };
 		AB50180F2A8A75FD00179B02 /* OperationalResearchProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OperationalResearchProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB5018122A8A75FD00179B02 /* OperationalResearchProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationalResearchProjectApp.swift; sourceTree = "<group>"; };
 		AB5018142A8A75FD00179B02 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -82,6 +86,7 @@
 				AB5018122A8A75FD00179B02 /* OperationalResearchProjectApp.swift */,
 				AB5018142A8A75FD00179B02 /* ContentView.swift */,
 				AB5018212A8A7A2C00179B02 /* QueryingView.swift */,
+				AB48D3622A8EDDEB00792DC4 /* RandomNumberView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -90,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				AB5018282A8ABC9C00179B02 /* Result.swift */,
+				AB48D3602A8EB1D900792DC4 /* FitTest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -98,7 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				AB5018252A8AB85F00179B02 /* QueuingViewModel.swift */,
-				AB48D3502A8D756800792DC4 /* SimulationViewModel.swift */,
+				AB48D3502A8D756800792DC4 /* RandomViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -174,10 +180,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB5018292A8ABC9C00179B02 /* Result.swift in Sources */,
-				AB48D3512A8D756800792DC4 /* SimulationViewModel.swift in Sources */,
+				AB48D3512A8D756800792DC4 /* RandomViewModel.swift in Sources */,
 				AB5018152A8A75FD00179B02 /* ContentView.swift in Sources */,
+				AB48D3612A8EB1D900792DC4 /* FitTest.swift in Sources */,
 				AB5018262A8AB85F00179B02 /* QueuingViewModel.swift in Sources */,
 				AB5018132A8A75FD00179B02 /* OperationalResearchProjectApp.swift in Sources */,
+				AB48D3632A8EDDEB00792DC4 /* RandomNumberView.swift in Sources */,
 				AB5018222A8A7A2C00179B02 /* QueryingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

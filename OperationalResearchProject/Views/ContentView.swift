@@ -123,7 +123,7 @@ struct ContentView: View {
                     }
                     
                     NavigationLink {
-                        
+                        RandomNumberView()
                     } label: {
                         HStack {
                             
@@ -147,6 +147,7 @@ struct ContentView: View {
                 .padding()
             }
         }
+        .navigationViewStyle(.stack)
     }
 }
 

@@ -26,8 +26,14 @@ class QueuingViewModel: ObservableObject {
     @Published var serviceMeanUniformDist = ""      { didSet { if isCalculated { calculateResults() } } }
     @Published var serviceVarianceUniformDist = ""  { didSet { if isCalculated { calculateResults() } } }
     
+    // Good Fit Test
+    @Published var tfBins = ""
+    @Published var tfFrequencies = ""
+    @Published var distributionIndex = 0
+    
     @Published var errorMessage: String? = nil
     @Published var result: QueuingResults? = nil
+    @Published var fitTestResult: FitTest? = nil
     
     @Published var isCalculated = false
     
@@ -45,8 +51,11 @@ class QueuingViewModel: ObservableObject {
             self.result = self.calculateMGCResults()
         }
         // g/g/c
-        else {
+        else if serverType == 2{
             self.result = self.calculateGGCResults()
+        }
+        else if serverType == 3 {
+            self.fitTestResult = self.calculateGoodFitTest()
         }
         self.errorMessage = nil
         self.isCalculated = true
@@ -99,7 +108,7 @@ class QueuingViewModel: ObservableObject {
     private func calculateMGCResults() -> QueuingResults? {
         
         /// Lambda ƛ
-        guard let arrivalMeanOfExpDist = Double(self.arrivalMeanOfExpDist) else {
+        guard var arrivalMeanOfExpDist = Double(self.arrivalMeanOfExpDist) else {
             self.errorMessage = "Arrival Mean of Exponential Distribution is not in Correct Format"
             return nil
         }
@@ -113,6 +122,8 @@ class QueuingViewModel: ObservableObject {
             self.errorMessage = "Maximum Uniform Distribution is not in Correct Format"
             return nil
         }
+        
+        arrivalMeanOfExpDist = 1 / arrivalMeanOfExpDist
         
         let newMiu = 1 / ((maximumUniformDist + minimumUniformDist) / 2)
         let varianceOfServiceTime = pow(maximumUniformDist - minimumUniformDist, 2) / 12
@@ -138,7 +149,7 @@ class QueuingViewModel: ObservableObject {
     
     private func calculateGGCResults() -> QueuingResults? {
         
-        guard let arrivalMeanOfExpDist = Double(self.arrivalMeanOfExpDist) else {
+        guard var arrivalMeanOfExpDist = Double(self.arrivalMeanOfExpDist) else {
             self.errorMessage = "Arrival Mean of Exponential Distribution is not in Correct Format"
             return nil
         }
@@ -148,7 +159,7 @@ class QueuingViewModel: ObservableObject {
             return nil
         }
         
-        guard let serviceMean = Double(serviceMeanUniformDist) else {
+        guard var serviceMean = Double(serviceMeanUniformDist) else {
             self.errorMessage = "Service Mean of Uniform Distribution is not in Correct Format"
             return nil
         }
@@ -157,6 +168,10 @@ class QueuingViewModel: ObservableObject {
             self.errorMessage = "Service Variance of Uniform Distribution is not in Correct Format"
             return nil
         }
+        
+        arrivalMeanOfExpDist = 1 / arrivalMeanOfExpDist
+        
+        serviceMean = 1 / serviceMean
         
         let ca = arrivalVariacneOfExpDist / pow(1 / arrivalMeanOfExpDist, 2)
         let cs = serviceVariance / pow(1 / serviceMean, 2)
@@ -178,9 +193,75 @@ class QueuingViewModel: ObservableObject {
                               avgTimeInQueue: avgTimeInQueue)
     }
     
-    /// MARK: Helper Functions
-    func factorial(_ n: Int) -> Double {
-        return (1...n).map(Double.init).reduce(1.0, *)
+    func calculateGoodFitTest() -> FitTest? {
+        
+        if tfBins.isEmpty || tfFrequencies.isEmpty {
+            return nil
+        }
+        
+        let bins = tfBins.split(separator: ",").map { Int($0.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0 }
+        let observedFrequencies = tfFrequencies.split(separator: ",").map { Int($0.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0 }
+        
+        guard bins.count == observedFrequencies.count else {
+            return nil
+        }
+        
+        let totalObserved = observedFrequencies.reduce(0, +)
+        let MLE = zip(bins, observedFrequencies).map { $0 * $1 }.reduce(0, +)
+        
+        var expectedFrequencies: [Double] = []
+        
+        // Poission Distribution
+        if distributionIndex == 0 {
+            let lambda = Double(MLE) / Double(totalObserved)
+            
+            for i in 0..<bins.count {
+                let probability = (exp(-lambda) * pow(lambda, Double(i))) / factorialize(i)
+                let expected = probability * Double(totalObserved)
+                expectedFrequencies.append(expected)
+            }
+        }
+        // Uniform Distribution
+        else {
+            let expectedFrequency = Double(totalObserved) / Double(bins.count)
+            expectedFrequencies = Array(repeating: expectedFrequency, count: bins.count)
+        }
+        
+        var chiSquareResults: [Double] = []
+        for i in 0..<bins.count {
+            let observed = Double(observedFrequencies[i])
+            let expected = expectedFrequencies[i]
+            chiSquareResults.append(pow(observed - expected, 2) / expected)
+        }
+//        print(chiSquareResult)
+        
+        let degreesOfFreedom = bins.count - 1
+        let chiSquareCriticalValues: [Double: [Int: Double]] = [
+            0.05: [
+                1: 3.841,
+                2: 5.991,
+                3: 7.815,
+                4: 9.488,
+                5: 11.07
+            ]
+        ]
+        
+        let significanceLevel: Double = 0.05
+        
+        let totalChiSquare = chiSquareResults.reduce(0, +)
+        
+        if let newCriticalValue = chiSquareCriticalValues[significanceLevel]?[degreesOfFreedom] {
+            return FitTest(chiSquare: totalChiSquare, significanceLevel: significanceLevel, criticalValue: newCriticalValue, hypothesis: totalChiSquare <= newCriticalValue)
+        }
+        return nil
+    }
+    
+    // Handler Methods
+    func factorialize(_ n: Int) -> Double {
+        if n == 0 {
+            return 1
+        }
+        return Double(n) * factorialize(n - 1)
     }
     
     func isValidate() -> Bool {
@@ -215,7 +296,7 @@ class QueuingViewModel: ObservableObject {
             }
         }
         // G/G/C
-        else {
+        else if serverType == 2{
             if arrivalMeanOfExpDist == "" {
                 self.errorMessage = "Please Enter Arrival Mean Of Exponential Distribution"
                 return false
@@ -228,6 +309,9 @@ class QueuingViewModel: ObservableObject {
                 self.errorMessage = "Please Enter Service Variance Of Uniform Distribution"
                 return false
             }
+        }
+        else {
+            
         }
         return true
     }
