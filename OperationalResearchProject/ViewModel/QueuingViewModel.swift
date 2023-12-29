@@ -9,22 +9,22 @@ import Foundation
 
 class QueuingViewModel: ObservableObject {
     
-    @Published var serverType = 0                   { didSet { if isCalculated { calculateResults() } } }
-    @Published var numberOfServers = 0              { didSet { if isCalculated { calculateResults() } } }
+    @Published var serverType = 0
+    @Published var numberOfServers = 0
     
     // M/M/C
-    @Published var arrivalRate = ""                 { didSet { if isCalculated { calculateResults() } } }
-    @Published var serviceRate = ""                 { didSet { if isCalculated { calculateResults() } } }
+    @Published var arrivalRate = ""
+    @Published var serviceRate = ""
     
     // M/G/C
-    @Published var arrivalMeanOfExpDist = ""        { didSet { if isCalculated { calculateResults() } } }
-    @Published var minimumUniformDist = ""          { didSet { if isCalculated { calculateResults() } } }
-    @Published var maximumUniformDist = ""          { didSet { if isCalculated { calculateResults() } } }
+    @Published var arrivalMeanOfExpDist = ""
+    @Published var minimumUniformDist = ""
+    @Published var maximumUniformDist = ""
     
     // G/G/C
-    @Published var arrivalVariacneOfExpDist = ""    { didSet { if isCalculated { calculateResults() } } }
-    @Published var serviceMeanUniformDist = ""      { didSet { if isCalculated { calculateResults() } } }
-    @Published var serviceVarianceUniformDist = ""  { didSet { if isCalculated { calculateResults() } } }
+    @Published var arrivalVariacneOfExpDist = ""
+    @Published var serviceMeanUniformDist = ""
+    @Published var serviceVarianceUniformDist = ""
     
     // Good Fit Test
     @Published var bins: [Double] = []
@@ -106,10 +106,10 @@ class QueuingViewModel: ObservableObject {
         let avgTimeInQueue = avgNumCustomersQueue / arrivalRate
         
         return QueuingResults(utilization: utilization,
-                                     avgNumCustomersSystem: avgNumCustomersSystem,
-                                     avgNumCustomersQueue: avgNumCustomersQueue,
-                                     avgTimeInSystem: avgTimeInSystem,
-                                     avgTimeInQueue: avgTimeInQueue)
+                              avgNumCustomersSystem: avgNumCustomersSystem,
+                              avgNumCustomersQueue: avgNumCustomersQueue,
+                              avgTimeInSystem: avgTimeInSystem,
+                              avgTimeInQueue: avgTimeInQueue)
     }
     
     private func calculateMGCResults() -> QueuingResults? {
@@ -208,7 +208,7 @@ class QueuingViewModel: ObservableObject {
         
         self.bins = tfBins.split(separator: ",").map { Double(Int($0.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0) }
         self.observedFrequencies = tfFrequencies.split(separator: ",").map { Double($0.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0 }
-
+        
         guard bins.count == observedFrequencies.count else {
             return nil
         }
@@ -242,7 +242,7 @@ class QueuingViewModel: ObservableObject {
             let expected = expectedFrequencies[i]
             chiSquareResults.append(pow(observed - expected, 2) / expected)
         }
-//        print(chiSquareResult)
+        //        print(chiSquareResult)
         
         let degreesOfFreedom = bins.count - 1 - 1
         let chiSquareCriticalValues: [Double: [Int: Double]] = [
@@ -324,5 +324,20 @@ class QueuingViewModel: ObservableObject {
             
         }
         return true
+    }
+    
+    func getHeader() -> String {
+        if serverType == 0 {
+            return "Quering Model: M/M/C"
+        }
+        else if serverType == 1 {
+            return "Quering Model: M/G/C"
+        }
+        else if serverType == 2 {
+            return "Quering Model: G/G/C"
+        }
+        else {
+            return "Quering Model: Fit Test"
+        }
     }
 }

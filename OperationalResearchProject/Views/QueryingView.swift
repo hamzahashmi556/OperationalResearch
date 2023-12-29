@@ -118,7 +118,7 @@ struct QueryingView: View {
         }
         .scrollDismissesKeyboard(.interactively)
         .listRowSeparator(.hidden, edges: .all)
-        .navigationTitle("Quering Model")
+        .navigationTitle(viewModel.getHeader())
         .navigationBarTitleDisplayMode(.large)
         .tint(.black)
     }
@@ -131,18 +131,18 @@ struct QueryingView: View {
     
     func ArrivalRateView() -> some View {
         Section {
-            Text("Arrival Rate (ƛ)")
+            Text("Mean of Arrival Rate (1/ƛ)")
             
-            TextField("Mean of Arrival Rate", text: $viewModel.arrivalRate)
+            TextField("Enter Arrival Rate (ƛ)", text: $viewModel.arrivalRate)
                 .keyboardType(.decimalPad)
         }
     }
     
     func ArrivalMeanExponentialDistribution() -> some View {
         Section {
-            Text("Arrival Mean Of Exponential Distribution (ƛ)")
+            Text("Arrival Mean Of Exponential Distribution (1/ƛ)")
             
-            TextField("Arrival Mean Exponential Distribution", text: $viewModel.arrivalMeanOfExpDist)
+            TextField("Enter Exponential Distribution", text: $viewModel.arrivalMeanOfExpDist)
                 .keyboardType(.decimalPad)
         }
     }
@@ -151,7 +151,7 @@ struct QueryingView: View {
         Section {
             Text("Arrival Variance Of Exponential Distribution")
             
-            TextField("Arrival Variance Exponential Distribution", text: $viewModel.arrivalVariacneOfExpDist)
+            TextField("Enter Arrival Variance", text: $viewModel.arrivalVariacneOfExpDist)
                 .keyboardType(.decimalPad)
         }
     }
@@ -159,18 +159,18 @@ struct QueryingView: View {
     
     func ServiceRateView() -> some View {
         Section {
-            Text("Mean of Service Rate (μ)")
+            Text("Mean of Service Rate (1/μ)")
             
-            TextField("Service Rate (μ)", text: $viewModel.serviceRate)
+            TextField("Enter Service Rate (μ)", text: $viewModel.serviceRate)
                 .keyboardType(.decimalPad)
         }
     }
     
     func ServiceMeanNormalDistribution() -> some View {
         Section {
-            Text("Service Mean of Normal Distribution")
+            Text("Service Mean of Normal Distribution (1/μ)")
             
-            TextField("Service Mean Normal Distribution", text: $viewModel.serviceMeanUniformDist)
+            TextField("Enter Service Mean", text: $viewModel.serviceMeanUniformDist)
                 .keyboardType(.decimalPad)
         }
     }
@@ -179,7 +179,7 @@ struct QueryingView: View {
         Section {
             Text("Service Variance of Normal Distribution")
             
-            TextField("Service Variance Normal Distribution", text: $viewModel.serviceVarianceUniformDist)
+            TextField("Enter Service Variance", text: $viewModel.serviceVarianceUniformDist)
                 .keyboardType(.decimalPad)
         }
     }
@@ -190,7 +190,7 @@ struct QueryingView: View {
         Section {
             Text("Minimum Uniform Distribution")
             
-            TextField("Minimum Uniform Distribution", text: $viewModel.minimumUniformDist)
+            TextField("Enter Minimum Distribution", text: $viewModel.minimumUniformDist)
                 .keyboardType(.decimalPad)
         }
     }
@@ -199,7 +199,7 @@ struct QueryingView: View {
         Section {
             Text("Maximum Uniform Distribution")
             
-            TextField("Maximum Uniform Distribution", text: $viewModel.maximumUniformDist)
+            TextField("Enter Maximum Distribution", text: $viewModel.maximumUniformDist)
                 .keyboardType(.decimalPad)
         }
     }
