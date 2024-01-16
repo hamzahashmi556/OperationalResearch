@@ -6,23 +6,28 @@
 //
 
 import SwiftUI
+import Charts
 
 struct ContentView: View {
     
     private let width = UIScreen.main.bounds.width
     private let height = UIScreen.main.bounds.height
     
+    @State var foregroundColor = Color.black
+    @State var backgroundColor = Color.white
+    
+    @State var imageSize: CGFloat = 80.0
+    
     var body: some View {
         
         NavigationView {
             
             ZStack {
-                
                 Image("UBIT")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .ignoresSafeArea()
-                    .blur(radius: 13)
+                    .blur(radius: 25)
                 
                 VStack {
                     
@@ -30,29 +35,26 @@ struct ContentView: View {
                         
                         Image(systemName: "scissors.circle")
                             .resizable()
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(.white)
+                            .frame(width: imageSize, height: imageSize)
+                            .foregroundStyle(foregroundColor)
                             .rotationEffect(.degrees(-90))
                         
                         Text("STYLO HAIR SALOON")
-                            .font(.system(size: 20, weight: .bold))
+                            .font(.system(size: 50, weight: .bold))
                             .padding()
-                        //                            .background(.black.opacity(0.1))
                             .cornerRadius(20)
-                            .foregroundColor(.white)
+                            .foregroundStyle(foregroundColor)
                         
                         
                         Circle()
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(.white)
+                            .frame(width: imageSize, height: imageSize)
+                            .foregroundStyle(foregroundColor)
                             .overlay {
                                 Image(systemName: "comb")
                                     .scaleEffect(2)
                                     .rotationEffect(.degrees(135))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(backgroundColor)
                             }
-                        
-                        
                     }
                     
                     Spacer()
@@ -63,7 +65,7 @@ struct ContentView: View {
                     VStack(spacing: 10) {
                         
                         Text("Group Members")
-                            .font(.headline)
+                            .font(.system(size: 50, weight: .bold))
                         
                         HStack {
                             Text("Arham Sharif")
@@ -89,6 +91,7 @@ struct ContentView: View {
                             Text("EB21102077")
                         }
                     }
+                    .font(.system(size: 30, weight: .medium))
                 }
                 .frame(width: width - 80)
                 .padding()
@@ -112,14 +115,16 @@ struct ContentView: View {
                                 .frame(width: 30, height: 30)
                             
                             Text("Quering Model")
-                                .frame(width: 150)
+                                .frame(width: 250)
+                                .font(.system(size: 30, weight: .bold))
+
                             
                             Spacer()
                         }
                         .foregroundColor(.white)
-                        .frame(width: width - 50, height: 50)
-                        .background(.black.opacity(0.5))
-                        .cornerRadius(30)
+                        .frame(width: width * 0.8, height: 100)
+                        .background(.black.opacity(0.8))
+                        .cornerRadius(50)
                     }
                     
                     NavigationLink {
@@ -134,14 +139,15 @@ struct ContentView: View {
                                 .frame(width: 30, height: 30)
                             
                             Text("Random Number")
-                                .frame(width: 150)
+                                .frame(width: 250)
+                                .font(.system(size: 30, weight: .bold))
                             
                             Spacer()
                         }
                         .foregroundColor(.black)
-                        .frame(width: width - 50, height: 50)
+                        .frame(width: width * 0.8, height: 100)
                         .background(.white)
-                        .cornerRadius(30)
+                        .cornerRadius(50)
                     }
                 }
                 .padding()
