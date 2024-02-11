@@ -91,16 +91,21 @@ struct MM1PriorityView: View {
             //            }
             //            .padding()
             
-            ScrollView(.horizontal) {
+            Section("Table") {
                 TableView()
-                
-                Rectangle()
-                    .frame(height: 2)
-                
+            }
+            
+            Section("Gant Chart") {
                 GantChartView()
             }
         }
-        .font(.title3)
+        .font(.title)
+        .bold()
+        .onAppear(perform: {
+            viewModel.inputArrivals = "0,4,8,10"
+            viewModel.inputServices = "5,6,7,8"
+            viewModel.inputPriorities = "1,2,3,1"
+        })
     }
     
     func ColumnTitle(_ title: String) -> some View {
@@ -109,42 +114,48 @@ struct MM1PriorityView: View {
     }
     
     func TableView() -> some View {
-        VStack {
-            HStack {
-                ColumnTitle("ID")
+        ScrollView(.horizontal) {
+            VStack(spacing: 0) {
+                HStack(spacing: 0) {
+                    ColumnTitle("ID")
+                    Divider()
+                    ColumnTitle("Arrival Time")
+                    Divider()
+                    ColumnTitle("Service Time")
+                    Divider()
+                    ColumnTitle("Priority")
+                    Divider()
+                    ColumnTitle("Start Time")
+                    Divider()
+                    ColumnTitle("End Time")
+                    Divider()
+                    ColumnTitle("Response Time")
+                    Divider()
+                    ColumnTitle("Wait Time")
+                }
+                
                 Divider()
-                ColumnTitle("Arrival Time")
-                Divider()
-                ColumnTitle("Service Time")
-                Divider()
-                ColumnTitle("Priority")
-                Divider()
-                ColumnTitle("Start Time")
-                Divider()
-                ColumnTitle("End Time")
-                Divider()
-                ColumnTitle("Response Time")
-                Divider()
-                ColumnTitle("Wait Time")
-            }
-            VStack {
-                ForEach(viewModel.calculatedCustomers, id: \.id) { customer in
-                    HStack {
-                        ColumnTitle(String(customer.id))
+                
+                VStack(spacing: 0) {
+                    ForEach(viewModel.calculatedCustomers, id: \.id) { customer in
+                        HStack(spacing: 0) {
+                            ColumnTitle(String(customer.id))
+                            Divider()
+                            ColumnTitle(customer.getArrivalTime())
+                            Divider()
+                            ColumnTitle(customer.getServiceTime())
+                            Divider()
+                            ColumnTitle(customer.getPriority())
+                            Divider()
+                            ColumnTitle(customer.getStartTime())
+                            Divider()
+                            ColumnTitle(customer.getEndTime())
+                            Divider()
+                            ColumnTitle(customer.getResponseTime())
+                            Divider()
+                            ColumnTitle(customer.getWaitTime())
+                        }
                         Divider()
-                        ColumnTitle(customer.getArrivalTime())
-                        Divider()
-                        ColumnTitle(customer.getServiceTime())
-                        Divider()
-                        ColumnTitle(customer.getPriority())
-                        Divider()
-                        ColumnTitle(customer.getStartTime())
-                        Divider()
-                        ColumnTitle(customer.getEndTime())
-                        Divider()
-                        ColumnTitle(customer.getResponseTime())
-                        Divider()
-                        ColumnTitle(customer.getWaitTime())
                     }
                 }
             }
@@ -152,35 +163,31 @@ struct MM1PriorityView: View {
     }
     
     func GantChartView() -> some View {
-        VStack {
-            HStack {
-                Text("Gant Chart")
-                    .font(.title)
-                Spacer()
-            }
-            
+        
+        ScrollView(.horizontal) {
             HStack {
                 ForEach(viewModel.grantChartModels) { model in
                     VStack {
                         
-                        Text("Customer ID: \(model.getID())")
-                            .frame(width: 200)
-                            .padding(.vertical, 10)
-                            .background {
-                                RoundedRectangle(cornerRadius: 10.0)
-                                    .stroke()
-                            }
+                        Text("ID: \(model.getID())")
+                        
+                        Divider()
                         
                         HStack {
                             Text(model.getStartTime())
                             Spacer()
                             Text(model.getEndTime())
                         }
+                        .padding(.horizontal)
+                    }
+                    .frame(width: 200, height: 130, alignment: .center)
+                    .background {
+                        RoundedRectangle(cornerRadius: 10.0)
+                            .stroke()
                     }
                 }
             }
         }
-        .padding(.top)
     }
 }
 /*
