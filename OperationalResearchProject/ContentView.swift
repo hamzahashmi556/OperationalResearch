@@ -90,6 +90,13 @@ struct ContentView: View {
                     VStack {
                         
                         NavigationLink {
+                            MM1PriorityView()
+                        } label: {
+                            CustomButton(imageName: "arrowshape.turn.up.backward.badge.clock", title: "MM1 With Priority")
+                        }
+
+                        
+                        NavigationLink {
                             LCGView()
                         } label: {
                             CustomButton(imageName: "arrow.circlepath", title: "LCG")

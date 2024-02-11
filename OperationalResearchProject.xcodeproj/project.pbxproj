@@ -17,9 +17,13 @@
 		AB5018222A8A7A2C00179B02 /* QueryingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5018212A8A7A2C00179B02 /* QueryingView.swift */; };
 		AB5018262A8AB85F00179B02 /* QueuingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5018252A8AB85F00179B02 /* QueuingViewModel.swift */; };
 		AB5018292A8ABC9C00179B02 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5018282A8ABC9C00179B02 /* Result.swift */; };
+		AB82F9222B78330E00DA2336 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB82F9212B78330E00DA2336 /* Customer.swift */; };
+		ABA0FCCA2B69194C00DB847C /* MM1.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA0FCC92B69194C00DB847C /* MM1.swift */; };
 		ABC6145B2B6657320033A5FF /* LCGView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6145A2B6657320033A5FF /* LCGView.swift */; };
 		ABC614602B6657740033A5FF /* LCGViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6145F2B6657740033A5FF /* LCGViewModel.swift */; };
 		ABC614622B665E900033A5FF /* LCGRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC614612B665E900033A5FF /* LCGRow.swift */; };
+		ABC614652B66F3000033A5FF /* MM1PriorityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC614642B66F3000033A5FF /* MM1PriorityView.swift */; };
+		ABC614672B66F3520033A5FF /* MM1PriorityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC614662B66F3520033A5FF /* MM1PriorityViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,9 +53,13 @@
 		AB5018282A8ABC9C00179B02 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		AB62A7592B3F11BA00CA6218 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		AB62A75B2B3F11BA00CA6218 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		AB82F9212B78330E00DA2336 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
+		ABA0FCC92B69194C00DB847C /* MM1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MM1.swift; sourceTree = "<group>"; };
 		ABC6145A2B6657320033A5FF /* LCGView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCGView.swift; sourceTree = "<group>"; };
 		ABC6145F2B6657740033A5FF /* LCGViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCGViewModel.swift; sourceTree = "<group>"; };
 		ABC614612B665E900033A5FF /* LCGRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCGRow.swift; sourceTree = "<group>"; };
+		ABC614642B66F3000033A5FF /* MM1PriorityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MM1PriorityView.swift; sourceTree = "<group>"; };
+		ABC614662B66F3520033A5FF /* MM1PriorityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MM1PriorityViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +122,7 @@
 		AB5018202A8A760700179B02 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				ABC614632B66F2F10033A5FF /* Priority */,
 				ABC6145E2B66575A0033A5FF /* LCG */,
 				ABC6145D2B66574C0033A5FF /* Random Number */,
 				ABC6145C2B6657420033A5FF /* QueringView */,
@@ -127,6 +136,8 @@
 				AB5018282A8ABC9C00179B02 /* Result.swift */,
 				AB48D3602A8EB1D900792DC4 /* FitTest.swift */,
 				ABC614612B665E900033A5FF /* LCGRow.swift */,
+				ABA0FCC92B69194C00DB847C /* MM1.swift */,
+				AB82F9212B78330E00DA2336 /* Customer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -165,6 +176,15 @@
 				ABC6145F2B6657740033A5FF /* LCGViewModel.swift */,
 			);
 			path = LCG;
+			sourceTree = "<group>";
+		};
+		ABC614632B66F2F10033A5FF /* Priority */ = {
+			isa = PBXGroup;
+			children = (
+				ABC614642B66F3000033A5FF /* MM1PriorityView.swift */,
+				ABC614662B66F3520033A5FF /* MM1PriorityViewModel.swift */,
+			);
+			path = Priority;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,7 +262,11 @@
 				ABC6145B2B6657320033A5FF /* LCGView.swift in Sources */,
 				AB48D3512A8D756800792DC4 /* RandomViewModel.swift in Sources */,
 				AB5018152A8A75FD00179B02 /* ContentView.swift in Sources */,
+				ABC614652B66F3000033A5FF /* MM1PriorityView.swift in Sources */,
+				ABC614672B66F3520033A5FF /* MM1PriorityViewModel.swift in Sources */,
+				AB82F9222B78330E00DA2336 /* Customer.swift in Sources */,
 				AB48D3612A8EB1D900792DC4 /* FitTest.swift in Sources */,
+				ABA0FCCA2B69194C00DB847C /* MM1.swift in Sources */,
 				ABC614602B6657740033A5FF /* LCGViewModel.swift in Sources */,
 				AB5018262A8AB85F00179B02 /* QueuingViewModel.swift in Sources */,
 				AB5018132A8A75FD00179B02 /* OperationalResearchProjectApp.swift in Sources */,
