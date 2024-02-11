@@ -32,6 +32,8 @@ class MM1PriorityViewModel: ObservableObject {
     @Published var priorityMessage = ""
     
     @Published var calculatedCustomers: [Customer] = []
+    
+    @Published var grantChartModels: [GrantChartService] = []
 }
 
 
@@ -40,9 +42,12 @@ extension MM1PriorityViewModel {
     func validateInputs() {
         
         // Arrivals
-        var arrivals: [Int] = []
+        self.arrivalMessage = ""
+        self.serviceMessage = ""
+        self.priorityMessage = ""
         
         // arrivals
+        var arrivals: [Int] = []
         do {
             arrivals = try self.checkInput(inputString: self.inputArrivals)
         }
@@ -73,7 +78,10 @@ extension MM1PriorityViewModel {
             self.arrivalMessage = ""
             self.serviceMessage = ""
             self.priorityMessage = ""
-            self.calculatedCustomers = self.caluclateResults(arrivals: arrivals, services: services, priorities: priorites)
+            
+            let (customers, grantChartModels) = self.caluclateResults(arrivals: arrivals, services: services, priorities: priorites)
+            self.calculatedCustomers = customers
+            self.grantChartModels = grantChartModels
         }
         else {
             if arrivals.count != services.count {
@@ -92,7 +100,6 @@ extension MM1PriorityViewModel {
     }
     
     private func checkInput(inputString: String) throws -> [Int] {
-        var errorMessage = ""
         var inputArray: [Int] = []
         for arrival in inputString.split(separator: ",") {
             if let intValue = Int(arrival), intValue >= 0 {
@@ -111,7 +118,7 @@ extension MM1PriorityViewModel {
         return inputArray
     }
     
-    private func caluclateResults(arrivals: [Int], services: [Int], priorities: [Int]) -> [Customer] {
+    private func caluclateResults(arrivals: [Int], services: [Int], priorities: [Int]) -> ([Customer], [GrantChartService]) {
         
         var customers: [Customer] = []
         
@@ -126,53 +133,63 @@ extension MM1PriorityViewModel {
 
         var queue: [Customer] = []
         var currentTime = 0
-
+        
         var isServiceEnabled = true
-
+        
+        var previousCustomer: Customer? = nil
+        var serviceCustomer: Customer? = nil
+        var grantChartService: GrantChartService? = nil
+        var services: [GrantChartService] = []
+        
         while isServiceEnabled {
             
             // Check for new arrivals
             let newCustomers = customers.filter { $0.arrivalTime == currentTime }
             queue.append(contentsOf: newCustomers)
             
-            // Check if there is a customer in the queue
-            if let currentCustomer = queue.first {
+            // Check if there's a higher-priority customer in the queue
+            if let currentCustomer = queue.min(by: { $0.priority.rawValue > $1.priority.rawValue }) {
                 
-                // Check if there's a higher-priority customer in the queue
-                let higherPriorityCustomer = queue.min(by: { $0.priority.rawValue > $1.priority.rawValue })
-//                let higherPriorityCustomer = queue.first { $0.priority.rawValue > currentCustomer.priority.rawValue }
-                
-                // If a higher-priority customer arrives, pause the current service
-                if let higherPriorityCustomer = higherPriorityCustomer {
-                    print("Higher Customer ID: \(higherPriorityCustomer.id)")
-                    //print("Service paused for lower priority customer.")
-                    currentCustomer.suspend()
-                    
-                    // Move to the higher-priority customer
-                    higherPriorityCustomer.updateStartTimeIfNeeded(currentTime: currentTime)
-                    higherPriorityCustomer.remainingServiceTime -= 1
-                    currentTime += 1
-                    
-                    // Check if service is completed for the higher-priority customer
-                    if higherPriorityCustomer.remainingServiceTime == 0 {
-                        higherPriorityCustomer.completed(currentTime: currentTime)
-                        queue.removeAll(where: { $0.id == higherPriorityCustomer.id } )
-                    }
+                // 1. Add Service For Grant Chart for the Current Customer
+                if serviceCustomer == nil {
+                    print("Service Started: \(currentTime)")
+                    grantChartService = GrantChartService(customerID: currentCustomer.id, startTime: currentTime)
+                    serviceCustomer = currentCustomer
                 }
                 else {
-                    // Continue with the current service
-                    currentCustomer.updateStartTimeIfNeeded(currentTime: currentTime)
+                    grantChartService?.end(endTime: currentTime)
                     
-                    currentCustomer.remainingServiceTime -= 1
-                    currentTime += 1
-                    
-                    // Check if service is completed for the current customer
-                    if currentCustomer.remainingServiceTime == 0 {
-                        currentCustomer.completed(currentTime: currentTime)
-                        queue.removeAll(where: { $0.id == currentCustomer.id })
+                    if currentCustomer.id != serviceCustomer?.id  {
+                        
+                        print("Service Ended: \(currentTime)")
+                        
+                        services.append(grantChartService!)
+                        
+                        grantChartService = GrantChartService(customerID: currentCustomer.id, startTime: currentTime)
+                        
+                        serviceCustomer = currentCustomer
                     }
                 }
-            } else {
+                
+                // 2. Continue with the current service
+                currentCustomer.updateStartTimeIfNeeded(currentTime: currentTime)
+                
+                currentCustomer.remainingServiceTime -= 1
+                currentTime += 1
+                
+                // 3. Check if service is completed for the current customer
+                if currentCustomer.remainingServiceTime == 0 {
+                    currentCustomer.completed(currentTime: currentTime)
+                    queue.removeAll(where: { $0.id == currentCustomer.id })
+                    
+                    // 4. Add The Service for the last customer
+                    if queue.isEmpty {
+                        services.append(grantChartService!)
+                    }
+                }
+                
+            }
+            else {
                 currentTime += 1
             }
             
@@ -184,7 +201,7 @@ extension MM1PriorityViewModel {
                 isServiceEnabled = false
             }
         }
-        return customers
+        return (customers, services)
     }
 
     /*
@@ -251,3 +268,42 @@ enum MM1PriorityType: String {
     }
 }
 */
+struct GrantChartService: Identifiable {
+    
+    var id = UUID().uuidString
+    private var customerID: Int = 0
+    private var startTime: Int
+    private var endTime: Int = Int.min
+    
+    init(customerID: Int, startTime: Int) {
+        self.customerID = customerID
+        self.startTime = startTime
+    }
+    
+    mutating func reset() {
+        self.startTime = Int.min
+        self.endTime = Int.min
+    }
+    
+    mutating func start(startTime: Int, customerID: Int) {
+        self.startTime = startTime
+        self.customerID = customerID
+    }
+    
+    mutating func end(endTime: Int) {
+        self.endTime = endTime
+    }
+    
+    func getID() -> String {
+        return String(customerID)
+    }
+    
+    func getStartTime() -> String {
+        return String(startTime)
+    }
+    
+    func getEndTime() -> String {
+        return String(endTime)
+    }
+
+}
