@@ -17,7 +17,7 @@ class Customer {
     var remainingServiceTime: Int
     private var startTime = Int.min
     private var endTime = Int.min
-    private var state: CustomerState
+    var state: CustomerState
     
     init(id: Int, arrivalTime: Int, serviceTime: Int, priority: Int) {
         self.id = id

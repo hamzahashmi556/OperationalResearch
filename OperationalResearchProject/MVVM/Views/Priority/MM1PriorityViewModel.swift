@@ -126,7 +126,7 @@ extension MM1PriorityViewModel {
             let arrival = arrivals[i]
             let service = services[i]
             let priority = priorities[i]
-            let customer = Customer(id: i, arrivalTime: arrival, serviceTime: service, priority: priority)
+            let customer = Customer(id: i + 1, arrivalTime: arrival, serviceTime: service, priority: priority)
             customers.append(customer)
         }
 
@@ -136,7 +136,6 @@ extension MM1PriorityViewModel {
         
         var isServiceEnabled = true
         
-        var previousCustomer: Customer? = nil
         var serviceCustomer: Customer? = nil
         var grantChartService: GrantChartService? = nil
         var services: [GrantChartService] = []

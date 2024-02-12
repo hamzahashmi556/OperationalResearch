@@ -102,9 +102,11 @@ struct MM1PriorityView: View {
         .font(.title)
         .bold()
         .onAppear(perform: {
+            /*
             viewModel.inputArrivals = "0,4,8,10"
             viewModel.inputServices = "5,6,7,8"
             viewModel.inputPriorities = "1,2,3,1"
+             */
         })
     }
     
@@ -155,6 +157,9 @@ struct MM1PriorityView: View {
                             Divider()
                             ColumnTitle(customer.getWaitTime())
                         }
+                        .foregroundStyle(customer.priority == .high ? .red : customer.priority == .medium ? .yellow : .green)
+
+                        
                         Divider()
                     }
                 }
@@ -167,23 +172,29 @@ struct MM1PriorityView: View {
         ScrollView(.horizontal) {
             HStack {
                 ForEach(viewModel.grantChartModels) { model in
-                    VStack {
+                    if let customer = viewModel.calculatedCustomers.first(where: { "\($0.id)" == model.getID() }) {
                         
-                        Text("ID: \(model.getID())")
-                        
-                        Divider()
-                        
-                        HStack {
-                            Text(model.getStartTime())
-                            Spacer()
-                            Text(model.getEndTime())
+                        VStack(spacing: 0) {
+                            
+                            Text("Customer ID: \(model.getID())")
+                            
+                            Divider()
+                                .padding(.vertical, 5)
+                            
+                            HStack {
+                                Text(model.getStartTime())
+                                Rectangle()
+                                    .frame(height: 1)
+                                Text(model.getEndTime())
+                            }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
-                    }
-                    .frame(width: 200, height: 130, alignment: .center)
-                    .background {
-                        RoundedRectangle(cornerRadius: 10.0)
-                            .stroke()
+                        .frame(width: 220, height: 100, alignment: .center)
+                        .background {
+                            RoundedRectangle(cornerRadius: 10.0)
+                                .stroke()
+                        }
+                        .foregroundStyle(customer.priority == .high ? .red : customer.priority == .medium ? .yellow : .green)
                     }
                 }
             }
