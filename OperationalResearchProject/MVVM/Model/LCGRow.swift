@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Struct representing a row in the LCG table.
 struct LCGRow: Identifiable {
     var id = UUID().uuidString
     var simulation: String
@@ -16,6 +17,7 @@ struct LCGRow: Identifiable {
     var priority: String
 }
 
+/// Struct representing input parameters for the LCG calculation.
 struct LCGInput {
     var valueA: Int
     var valueM: Int

@@ -7,23 +7,23 @@
 
 import SwiftUI
 
+/// View for managing Linear Congruential Generator (LCG) simulation inputs and displaying results.
 struct LCGView: View {
     
     @StateObject var viewModel = LCGViewModel()
     
     var body: some View {
         List {
-            
+            // Input fields for LCG parameters
             LCGInputView(viewModel: viewModel, type: .a, text: $viewModel.inputA)
-            
             LCGInputView(viewModel: viewModel, type: .m, text: $viewModel.inputM)
-            
             LCGInputView(viewModel: viewModel, type: .c, text: $viewModel.inputC)
             
             LCGInputView(viewModel: viewModel, type: .priority, text: $viewModel.inputPriority)
             
             LCGInputView(viewModel: viewModel, type: .noOfSimulation, text: $viewModel.inputIteration)
             
+            // Button to trigger calculation of results
             Button("Show Results") {
                 viewModel.calculateResults()
             }
@@ -32,16 +32,18 @@ struct LCGView: View {
         }
         .navigationTitle("LCG")
         .navigationBarTitleDisplayMode(.large)
-//        .toolbarBackground(.visible, for: .navigationBar)
         .keyboardType(.numberPad)
         .font(.title)
         .padding()
+        
+        // Navigation to the results view
         .navigationDestination(isPresented: $viewModel.showResults) {
             LCGTableView(viewModel: viewModel)
         }
     }
 }
 
+/// View for input fields in LCG simulation.
 struct LCGInputView: View {
     
     @ObservedObject var viewModel: LCGViewModel
@@ -50,14 +52,14 @@ struct LCGInputView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            
+            // Placeholder text for input field
             Text(type.getPlaceHolder())
                 .padding(.horizontal)
                 .font(.title)
                 .frame(height: 50)
             
             ZStack {
-                
+                // Input field with border color indicating validation error
                 RoundedRectangle(cornerRadius: 10)
                     .stroke()
                     .foregroundStyle(viewModel.errorType == type ? .red : .white)
@@ -68,6 +70,7 @@ struct LCGInputView: View {
             }
             .frame(height: 80)
             
+            // Error message display
             if viewModel.errorType == type {
                 Text(viewModel.errorMessage)
                     .foregroundStyle(.red)
@@ -76,13 +79,14 @@ struct LCGInputView: View {
     }
 }
 
+/// View for displaying results of LCG simulation.
 struct LCGTableView: View {
     
     @ObservedObject var viewModel: LCGViewModel
     
-    
     var body: some View {
         if #available(iOS 17.0, *) {
+            // Table view to display simulation results
             Table(viewModel.lcgModels) {
                 TableColumn("Simulation", value: \.simulation)
                     .alignment(.center)

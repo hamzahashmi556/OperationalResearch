@@ -8,35 +8,57 @@
 import Foundation
 import SwiftUI
 
+/// View model for managing Linear Congruential Generator (LCG) simulation parameters and results.
 class LCGViewModel: ObservableObject {
     
+    // MARK: - Published Properties
+    
+    /// Input for parameter 'A'.
     @Published var inputA = String()
+    
+    /// Input for parameter 'M'.
     @Published var inputM = String()
+    
+    /// Input for parameter 'C'.
     @Published var inputC = String()
+    
+    /// Input for maximum priority value.
     @Published var inputPriority = String()
+    
+    /// Input for the number of simulations.
     @Published var inputIteration = String()
-
+    
+    /// Minimum priority value.
     @Published var minPriority = 1
     
+    /// Array of rows representing LCG simulation results.
     @Published var lcgModels: [LCGRow] = []
     
+    /// Error message to display.
     @Published var errorMessage = ""
+    
+    /// Type of input field causing the error.
     @Published var errorType: LCGFieldType = .none
     
+    /// Indicates whether to show the results view.
     @Published var showResults = false
     
-    /// Constant
+    /// Constant value for 'Z'.
     @Published var Z = 10112166
     
+    // MARK: - Methods
+    
+    /// Pushes simulation results to the array of LCGRow.
     func push(no: Int, Z: Int, R: Int, Rand: Double, Priority: Int) {
         let lcg = LCGRow(simulation: String(no),
-                      z: String(Z),
-                      r: String(R),
-                      random: String(Rand),
-                      priority: String(Priority))
+                         z: String(Z),
+                         r: String(R),
+                         random: String(Rand),
+                         priority: String(Priority))
         self.lcgModels.append(lcg)
     }
     
+    /// Calculates the results of the LCG simulation.
     func calculateResults() {
         
         guard let input = self.validateInputModel() else {
@@ -66,11 +88,12 @@ class LCGViewModel: ObservableObject {
         self.showResults = true
     }
     
+    /// Validates the input model for LCG parameters.
     func validateInputModel() -> LCGInput? {
         
         let errorMessage = "Please Fill This Field"
         
-        // Checking A
+        // Validate parameter 'A'
         if self.inputA.isEmpty {
             self.showError(error: errorMessage, type: .a)
             return .none
@@ -81,7 +104,7 @@ class LCGViewModel: ObservableObject {
             return .none
         }
         
-        // Checking M
+        // Validate parameter 'M'
         if self.inputM.isEmpty {
             self.showError(error: errorMessage, type: .m)
             return .none
@@ -92,19 +115,19 @@ class LCGViewModel: ObservableObject {
             self.errorType = .m
             return .none
         }
-
-        // Checking C
+        
+        
+        // Validate parameter 'C'
         if self.inputC.isEmpty {
             self.showError(error: errorMessage, type: .c)
             return .none
         }
-        
         guard let valueC = Int(inputC) else {
             self.showError(error: "Can not convert value of C into Integer", type: .c)
             return .none
         }
         
-        // Checking Priority
+        // Validate maximum priority value
         if self.inputPriority.isEmpty {
             self.showError(error: errorMessage, type: .priority)
             return .none
@@ -114,8 +137,8 @@ class LCGViewModel: ObservableObject {
             self.showError(error: "Can not convert value of Priority into Double", type: .priority)
             return .none
         }
-
-        // Checking Number of Simulation
+        
+        // Validate number of simulations
         if self.inputIteration.isEmpty {
             self.showError(error: errorMessage, type: .noOfSimulation)
             return .none
@@ -129,6 +152,7 @@ class LCGViewModel: ObservableObject {
         return LCGInput(valueA: valueA, valueM: valueM, valueC: valueC, maxPriority: maxPriority, valueIteration: valueIterations)
     }
     
+    /// Shows error message for the specified type of input field.
     func showError(error: String, type: LCGFieldType) {
         withAnimation {
             self.errorMessage = error
@@ -137,6 +161,7 @@ class LCGViewModel: ObservableObject {
     }
 }
 
+/// Enum representing different types of LCG input fields.
 enum LCGFieldType: String {
     case none = ""
     case a = "A"
@@ -146,6 +171,7 @@ enum LCGFieldType: String {
     case decimals = "Decimals"
     case noOfSimulation = "Simulation"
     
+    /// Provides a placeholder text for the input field based on the field type.
     func getPlaceHolder() -> String {
         switch self {
         case .none:

@@ -7,46 +7,60 @@
 
 import Foundation
 
+/// View model for the MM1PriorityView, responsible for managing inputs, validating them, and calculating results.
 class MM1PriorityViewModel: ObservableObject {
     
+    /// Published property for input arrival times.
     @Published var inputArrivals = "" {
         didSet {
             self.validateInputs()
         }
     }
+    
+    /// Published property for arrival message to display validation errors.
     @Published var arrivalMessage = ""
     
+    /// Published property for input service times.
     @Published var inputServices = ""{
         didSet {
             self.validateInputs()
         }
     }
+    
+    /// Published property for service message to display validation errors.
     @Published var serviceMessage = ""
     
-    
+    /// Published property for input priorities.
     @Published var inputPriorities = ""{
         didSet {
             self.validateInputs()
         }
     }
+    
+    /// Published property for priority message to display validation errors.
     @Published var priorityMessage = ""
     
+    /// Published property for the list of calculated customers.
     @Published var calculatedCustomers: [Customer] = []
     
-    @Published var grantChartModels: [GrantChartService] = []
+    /// Published property for the list of Gantt chart data.
+    @Published var grantChartModels: [GrantChartData] = []
 }
 
+// MARK: - Extensions
 
 extension MM1PriorityViewModel {
     
+    /// Validates the input strings for arrivals, services, and priorities.
     func validateInputs() {
-        
-        // Arrivals
+        // Reset error messages
         self.arrivalMessage = ""
         self.serviceMessage = ""
         self.priorityMessage = ""
         
-        // arrivals
+        // Parse input strings into arrays of integers
+        
+        // check if the arrival input is correct
         var arrivals: [Int] = []
         do {
             arrivals = try self.checkInput(inputString: self.inputArrivals)
@@ -55,7 +69,7 @@ extension MM1PriorityViewModel {
             self.arrivalMessage = error.localizedDescription
         }
         
-        // services
+        // check if the service input is correct
         var services: [Int] = []
         do {
             services = try self.checkInput(inputString: self.inputServices)
@@ -63,9 +77,8 @@ extension MM1PriorityViewModel {
         catch {
             self.serviceMessage = error.localizedDescription
         }
-
-
-        // priorities
+        
+        // check if the priority input is correct
         var priorites: [Int] = []
         do {
             priorites = try self.checkInput(inputString: self.inputPriorities)
@@ -74,6 +87,8 @@ extension MM1PriorityViewModel {
             self.priorityMessage = error.localizedDescription
         }
         
+        // To Make Sure the Data are of equal sizes for equal number of customers
+        // We Validate inputs and calculate results if inputs are valid
         if arrivals.count == services.count && services.count == priorites.count {
             self.arrivalMessage = ""
             self.serviceMessage = ""
@@ -84,6 +99,7 @@ extension MM1PriorityViewModel {
             self.grantChartModels = grantChartModels
         }
         else {
+            // Handle mismatched input lengths
             if arrivals.count != services.count {
                 self.arrivalMessage = "Numbers Are Not Equal"
                 self.serviceMessage = "Numbers Are Not Equal"
@@ -99,6 +115,9 @@ extension MM1PriorityViewModel {
         }
     }
     
+    /// Parses the input string into an array of integers.
+    /// - Parameter inputString: The input string to parse.
+    /// - Returns: An array of integers parsed from the input string.
     private func checkInput(inputString: String) throws -> [Int] {
         var inputArray: [Int] = []
         for arrival in inputString.split(separator: ",") {
@@ -118,10 +137,16 @@ extension MM1PriorityViewModel {
         return inputArray
     }
     
-    private func caluclateResults(arrivals: [Int], services: [Int], priorities: [Int]) -> ([Customer], [GrantChartService]) {
-        
+    /// Calculates the results based on input arrival times, service times, and priorities.
+    /// - Parameters:
+    ///   - arrivals: The array of arrival times.
+    ///   - services: The array of service times.
+    ///   - priorities: The array of priorities.
+    /// - Returns: A tuple containing the list of calculated customers and the list of Gantt chart data.
+    private func caluclateResults(arrivals: [Int], services: [Int], priorities: [Int]) -> ([Customer], [GrantChartData]) {
         var customers: [Customer] = []
         
+        // Create customers based on input data
         for i in 0 ..< arrivals.count {
             let arrival = arrivals[i]
             let service = services[i]
@@ -129,19 +154,16 @@ extension MM1PriorityViewModel {
             let customer = Customer(id: i + 1, arrivalTime: arrival, serviceTime: service, priority: priority)
             customers.append(customer)
         }
-
-
+        
         var queue: [Customer] = []
         var currentTime = 0
-        
         var isServiceEnabled = true
-        
         var serviceCustomer: Customer? = nil
-        var grantChartService: GrantChartService? = nil
-        var services: [GrantChartService] = []
+        var grantChartData: GrantChartData? = nil
+        var chartDataList: [GrantChartData] = []
         
+        // Process customers until no more arrivals or customers in queue
         while isServiceEnabled {
-            
             // Check for new arrivals
             let newCustomers = customers.filter { $0.arrivalTime == currentTime }
             queue.append(contentsOf: newCustomers)
@@ -149,44 +171,48 @@ extension MM1PriorityViewModel {
             // Check if there's a higher-priority customer in the queue
             if let currentCustomer = queue.min(by: { $0.priority.rawValue > $1.priority.rawValue }) {
                 
-                // 1. Add Service For Grant Chart for the Current Customer
+                // Add service for Gantt chart
+                
+                // if no cutomer is on service
                 if serviceCustomer == nil {
                     print("Service Started: \(currentTime)")
-                    grantChartService = GrantChartService(customerID: currentCustomer.id, startTime: currentTime)
+                    grantChartData = GrantChartData(customerID: currentCustomer.id, startTime: currentTime)
                     serviceCustomer = currentCustomer
                 }
+                // if customer is being served
                 else {
-                    grantChartService?.end(endTime: currentTime)
-                    
+                    // update the endtime
+                    grantChartData?.end(endTime: currentTime)
+                    // if the customer being served was interrupted, add a service to the list and make a new grant chart model and also set the current customer in service
                     if currentCustomer.id != serviceCustomer?.id  {
-                        
                         print("Service Ended: \(currentTime)")
                         
-                        services.append(grantChartService!)
+                        // adding service to the list
+                        chartDataList.append(grantChartData!)
                         
-                        grantChartService = GrantChartService(customerID: currentCustomer.id, startTime: currentTime)
+                        // initializing the new service
+                        grantChartData = GrantChartData(customerID: currentCustomer.id, startTime: currentTime)
                         
+                        // setting the current customer to serivce customer
                         serviceCustomer = currentCustomer
                     }
                 }
                 
-                // 2. Continue with the current service
+                // Continue with the current service
                 currentCustomer.updateStartTimeIfNeeded(currentTime: currentTime)
-                
                 currentCustomer.remainingServiceTime -= 1
                 currentTime += 1
                 
-                // 3. Check if service is completed for the current customer
+                // Check if service is completed for the current customer
                 if currentCustomer.remainingServiceTime == 0 {
                     currentCustomer.completed(currentTime: currentTime)
                     queue.removeAll(where: { $0.id == currentCustomer.id })
                     
-                    // 4. Add The Service for the last customer
+                    // Add the service for the last customer
                     if queue.isEmpty {
-                        services.append(grantChartService!)
+                        chartDataList.append(grantChartData!)
                     }
                 }
-                
             }
             else {
                 currentTime += 1
@@ -200,109 +226,6 @@ extension MM1PriorityViewModel {
                 isServiceEnabled = false
             }
         }
-        return (customers, services)
+        return (customers, chartDataList)
     }
-
-    /*
-    func generateServiceTime(mu: Double, numCustomers: Int) -> [Double] {
-        var serviceTimes: [Double] = []
-
-        for _ in 0..<numCustomers {
-            let serviceTime = generateExponentialRandomNumber(mu: mu)
-            serviceTimes.append(serviceTime)
-        }
-        return serviceTimes
-    }
-
-    func generateExponentialRandomNumber(mu: Double) -> Double {
-        return Double(-log(Double.random(in: 0..<1)) * mu) + 1
-    }
-
-    struct LCGParameters {
-        var seed: Int
-        var a: Int
-        var c: Int
-        var m: Int
-        var count: Int
-    }
-
-    func generateRandomPriorities(parameters: LCGParameters) -> [Int] {
-        var priorities: [Int] = []
-        var currentSeed = parameters.seed
-
-        for _ in 0..<parameters.count {
-            currentSeed = (parameters.a * currentSeed + parameters.c) % parameters.m
-            let priority = (currentSeed % 3) + 1
-            priorities.append(priority)
-        }
-
-        return priorities
-    }
-     */
-}
-
-/*
-enum MM1PriorityType: String {
-    case none = ""
-    case customers = "Number of Customers"
-    /// Lambda Value
-    case arrivalRate = "Arrival Rate"
-    /// Mu Value
-    case serviceRate = "Service Rate"
-    case randomSeed = "Random Seed"
-    
-    func getPlaceHolder() -> String {
-        switch self {
-        case .none:
-            return ""
-        case .customers:
-            return "Enter Customers"
-        case .arrivalRate:
-            return "Enter Arrival Rate"
-        case .serviceRate:
-            return "Enter Service Rate"
-        case .randomSeed:
-            return "Enter Random Seed"
-        }
-    }
-}
-*/
-struct GrantChartService: Identifiable {
-    
-    var id = UUID().uuidString
-    private var customerID: Int = 0
-    private var startTime: Int
-    private var endTime: Int = Int.min
-    
-    init(customerID: Int, startTime: Int) {
-        self.customerID = customerID
-        self.startTime = startTime
-    }
-    
-    mutating func reset() {
-        self.startTime = Int.min
-        self.endTime = Int.min
-    }
-    
-    mutating func start(startTime: Int, customerID: Int) {
-        self.startTime = startTime
-        self.customerID = customerID
-    }
-    
-    mutating func end(endTime: Int) {
-        self.endTime = endTime
-    }
-    
-    func getID() -> String {
-        return String(customerID)
-    }
-    
-    func getStartTime() -> String {
-        return String(startTime)
-    }
-    
-    func getEndTime() -> String {
-        return String(endTime)
-    }
-
 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// A view for MM1 Priority scheduling with user inputs and visualizations.
 struct MM1PriorityView: View {
     
     @StateObject var viewModel = MM1PriorityViewModel()
@@ -86,11 +87,6 @@ struct MM1PriorityView: View {
                 }
             }
             
-            //            Button("Calculate") {
-            //                viewModel.validateInputs()
-            //            }
-            //            .padding()
-            
             Section("Table") {
                 TableView()
             }
@@ -101,20 +97,15 @@ struct MM1PriorityView: View {
         }
         .font(.title)
         .bold()
-        .onAppear(perform: {
-            /*
-            viewModel.inputArrivals = "0,4,8,10"
-            viewModel.inputServices = "5,6,7,8"
-            viewModel.inputPriorities = "1,2,3,1"
-             */
-        })
     }
     
+    /// Helper function to create column titles for the table.
     func ColumnTitle(_ title: String) -> some View {
         Text(title)
             .frame(width: 200, height: 50, alignment: .center)
     }
     
+    /// A view for displaying the table of calculated results.
     func TableView() -> some View {
         ScrollView(.horizontal) {
             VStack(spacing: 0) {
@@ -167,6 +158,7 @@ struct MM1PriorityView: View {
         }
     }
     
+    /// A view for displaying the Gantt chart.
     func GantChartView() -> some View {
         
         ScrollView(.horizontal) {
@@ -201,36 +193,6 @@ struct MM1PriorityView: View {
         }
     }
 }
-/*
-struct MM1PriorityInputView: View {
-    
-    @ObservedObject var viewModel: MM1PriorityViewModel
-    var type: MM1PriorityType
-    @Binding var text: String
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            
-            Text(type.getPlaceHolder())
-                .padding(.horizontal)
-                .font(.title)
-                .frame(height: 50)
-            
-            ZStack {
-                
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke()
-//                    .foregroundStyle(viewModel.errorType == type ? .red : .white)
-                    .foregroundStyle(.red)
-                
-                TextField("", text: $text)
-                    .padding(.leading)
-            }
-            .frame(height: 80)
-        }
-    }
-}
-*/
 #Preview {
     MM1PriorityView(viewModel: MM1PriorityViewModel())
         .preferredColorScheme(.dark)
