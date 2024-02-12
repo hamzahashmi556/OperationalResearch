@@ -73,15 +73,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AB3156D32B55957C000859E8 /* MVVM */ = {
-			isa = PBXGroup;
-			children = (
-				AB5018272A8ABC8F00179B02 /* Model */,
-				AB5018202A8A760700179B02 /* Views */,
-			);
-			path = MVVM;
-			sourceTree = "<group>";
-		};
 		AB5018062A8A75FD00179B02 = {
 			isa = PBXGroup;
 			children = (
@@ -102,7 +93,8 @@
 		AB5018112A8A75FD00179B02 /* OperationalResearchProject */ = {
 			isa = PBXGroup;
 			children = (
-				AB3156D32B55957C000859E8 /* MVVM */,
+				AB8A58932B7A08B7006F3424 /* 5th Semester */,
+				AB8A58942B7A08C0006F3424 /* 6th Semester */,
 				AB5018142A8A75FD00179B02 /* ContentView.swift */,
 				AB5018122A8A75FD00179B02 /* OperationalResearchProjectApp.swift */,
 				AB5018162A8A75FF00179B02 /* Assets.xcassets */,
@@ -122,24 +114,9 @@
 		AB5018202A8A760700179B02 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				AB8A58902B7A0789006F3424 /* MM1 Priority */,
-				ABC6145E2B66575A0033A5FF /* LCG */,
-				ABC6145D2B66574C0033A5FF /* Random Number */,
-				ABC6145C2B6657420033A5FF /* QueringView */,
+				ABC6145A2B6657320033A5FF /* LCGView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		AB5018272A8ABC8F00179B02 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				AB82F9212B78330E00DA2336 /* Customer.swift */,
-				AB8A58852B7A0326006F3424 /* GrantChartDatum.swift */,
-				AB5018282A8ABC9C00179B02 /* Result.swift */,
-				AB48D3602A8EB1D900792DC4 /* FitTest.swift */,
-				ABC614612B665E900033A5FF /* LCGRow.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		AB62A7582B3F11BA00CA6218 /* Frameworks */ = {
@@ -151,40 +128,143 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		AB8A58902B7A0789006F3424 /* MM1 Priority */ = {
+		AB8A58912B7A08A7006F3424 /* MM1 Priority */ = {
 			isa = PBXGroup;
 			children = (
-				ABC614642B66F3000033A5FF /* MM1PriorityView.swift */,
-				ABC614662B66F3520033A5FF /* MM1PriorityViewModel.swift */,
+				AB8A589D2B7A0933006F3424 /* Model */,
+				AB8A589E2B7A093C006F3424 /* View */,
+				AB8A589F2B7A093F006F3424 /* ViewModel */,
 			);
 			path = "MM1 Priority";
 			sourceTree = "<group>";
 		};
-		ABC6145C2B6657420033A5FF /* QueringView */ = {
+		AB8A58922B7A08AE006F3424 /* LCG */ = {
+			isa = PBXGroup;
+			children = (
+				AB8A58A22B7A0992006F3424 /* Model */,
+				AB5018202A8A760700179B02 /* Views */,
+				AB8A58A02B7A0986006F3424 /* ViewModel */,
+			);
+			path = LCG;
+			sourceTree = "<group>";
+		};
+		AB8A58932B7A08B7006F3424 /* 5th Semester */ = {
+			isa = PBXGroup;
+			children = (
+				AB8A58952B7A08CE006F3424 /* Queuing Model */,
+				AB8A58962B7A08E7006F3424 /* Random Number Generator */,
+			);
+			path = "5th Semester";
+			sourceTree = "<group>";
+		};
+		AB8A58942B7A08C0006F3424 /* 6th Semester */ = {
+			isa = PBXGroup;
+			children = (
+				AB8A58912B7A08A7006F3424 /* MM1 Priority */,
+				AB8A58922B7A08AE006F3424 /* LCG */,
+			);
+			path = "6th Semester";
+			sourceTree = "<group>";
+		};
+		AB8A58952B7A08CE006F3424 /* Queuing Model */ = {
+			isa = PBXGroup;
+			children = (
+				AB8A58972B7A08FE006F3424 /* Model */,
+				AB8A58982B7A0901006F3424 /* View */,
+				AB8A58992B7A0908006F3424 /* ViewModel */,
+			);
+			path = "Queuing Model";
+			sourceTree = "<group>";
+		};
+		AB8A58962B7A08E7006F3424 /* Random Number Generator */ = {
+			isa = PBXGroup;
+			children = (
+				AB8A589B2B7A0920006F3424 /* View */,
+				AB8A589C2B7A0923006F3424 /* ViewModel */,
+			);
+			path = "Random Number Generator";
+			sourceTree = "<group>";
+		};
+		AB8A58972B7A08FE006F3424 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AB5018282A8ABC9C00179B02 /* Result.swift */,
+				AB48D3602A8EB1D900792DC4 /* FitTest.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AB8A58982B7A0901006F3424 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				AB5018212A8A7A2C00179B02 /* QueryingView.swift */,
-				AB5018252A8AB85F00179B02 /* QueuingViewModel.swift */,
 			);
-			path = QueringView;
+			path = View;
 			sourceTree = "<group>";
 		};
-		ABC6145D2B66574C0033A5FF /* Random Number */ = {
+		AB8A58992B7A0908006F3424 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				AB5018252A8AB85F00179B02 /* QueuingViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		AB8A589B2B7A0920006F3424 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AB48D3622A8EDDEB00792DC4 /* RandomNumberView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		AB8A589C2B7A0923006F3424 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				AB48D3502A8D756800792DC4 /* RandomViewModel.swift */,
-				AB48D3622A8EDDEB00792DC4 /* RandomNumberView.swift */,
 			);
-			path = "Random Number";
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		ABC6145E2B66575A0033A5FF /* LCG */ = {
+		AB8A589D2B7A0933006F3424 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				ABC6145A2B6657320033A5FF /* LCGView.swift */,
+				AB82F9212B78330E00DA2336 /* Customer.swift */,
+				AB8A58852B7A0326006F3424 /* GrantChartDatum.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AB8A589E2B7A093C006F3424 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ABC614642B66F3000033A5FF /* MM1PriorityView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		AB8A589F2B7A093F006F3424 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				ABC614662B66F3520033A5FF /* MM1PriorityViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		AB8A58A02B7A0986006F3424 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
 				ABC6145F2B6657740033A5FF /* LCGViewModel.swift */,
 			);
-			path = LCG;
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		AB8A58A22B7A0992006F3424 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				ABC614612B665E900033A5FF /* LCGRow.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

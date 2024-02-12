@@ -16,7 +16,9 @@ struct LCGView: View {
         List {
             // Input fields for LCG parameters
             LCGInputView(viewModel: viewModel, type: .a, text: $viewModel.inputA)
+            
             LCGInputView(viewModel: viewModel, type: .m, text: $viewModel.inputM)
+            
             LCGInputView(viewModel: viewModel, type: .c, text: $viewModel.inputC)
             
             LCGInputView(viewModel: viewModel, type: .priority, text: $viewModel.inputPriority)
