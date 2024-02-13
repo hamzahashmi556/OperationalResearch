@@ -119,7 +119,8 @@ struct QueryingView: View {
         .scrollDismissesKeyboard(.interactively)
         .listRowSeparator(.hidden, edges: .all)
         .navigationTitle(viewModel.getHeader())
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.visible, for: .navigationBar)
         .tint(.black)
     }
     
@@ -209,7 +210,7 @@ struct QueryingView: View {
             Text("Enter Comma Seperated Bins")
 
             TextField("Comma Seperated Bins", text: $viewModel.tfBins)
-                .keyboardType(.numberPad)
+                .keyboardType(.numbersAndPunctuation)
         }
     }
     
@@ -219,6 +220,7 @@ struct QueryingView: View {
             Text("Enter Comma seperated Observed Frequencies")
             
             TextField("Expected Frequencies", text: $viewModel.tfFrequencies)
+                .keyboardType(.numbersAndPunctuation)
         }
     }
     

@@ -104,7 +104,6 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("STYLO HAIR SALOON")
-            .toolbarColorScheme(.light, for: .navigationBar)
             .navigationBarTitleDisplayMode(.inline)
 //            .toolbar(content: {
 //                ToolbarItem(placement: .topBarLeading) {

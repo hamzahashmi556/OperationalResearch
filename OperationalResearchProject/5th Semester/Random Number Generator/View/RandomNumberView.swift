@@ -97,6 +97,9 @@ struct RandomNumberView: View {
                 }
             }
         }
+        .navigationTitle("Random Number Generator")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.visible, for: .navigationBar)
         .scrollDismissesKeyboard(.interactively)
         .onAppear {
 //            viewModel.calculateValues(lambda: lambda, meo: meo)
@@ -109,6 +112,7 @@ struct RandomNumberView: View {
             Text("Enter Lambda")
             
             TextField("Enter Lambda Value", text: $lambda)
+                .keyboardType(.decimalPad)
             
         }
     }
@@ -118,6 +122,7 @@ struct RandomNumberView: View {
             Text("Enter Meo")
             
             TextField("Enter Meo Value", text: $meo)
+                .keyboardType(.decimalPad)
         }
     }
     
