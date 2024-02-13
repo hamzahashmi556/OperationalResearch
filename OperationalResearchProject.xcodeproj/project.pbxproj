@@ -19,6 +19,7 @@
 		AB5018292A8ABC9C00179B02 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5018282A8ABC9C00179B02 /* Result.swift */; };
 		AB82F9222B78330E00DA2336 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB82F9212B78330E00DA2336 /* Customer.swift */; };
 		AB8A58862B7A0326006F3424 /* GrantChartDatum.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8A58852B7A0326006F3424 /* GrantChartDatum.swift */; };
+		AB9C02642B7B5539000BDAA4 /* Font Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9C02632B7B5539000BDAA4 /* Font Extension.swift */; };
 		ABC6145B2B6657320033A5FF /* LCGView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6145A2B6657320033A5FF /* LCGView.swift */; };
 		ABC614602B6657740033A5FF /* LCGViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC6145F2B6657740033A5FF /* LCGViewModel.swift */; };
 		ABC614622B665E900033A5FF /* LCGRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC614612B665E900033A5FF /* LCGRow.swift */; };
@@ -55,6 +56,7 @@
 		AB62A75B2B3F11BA00CA6218 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		AB82F9212B78330E00DA2336 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		AB8A58852B7A0326006F3424 /* GrantChartDatum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantChartDatum.swift; sourceTree = "<group>"; };
+		AB9C02632B7B5539000BDAA4 /* Font Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font Extension.swift"; sourceTree = "<group>"; };
 		ABC6145A2B6657320033A5FF /* LCGView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCGView.swift; sourceTree = "<group>"; };
 		ABC6145F2B6657740033A5FF /* LCGViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCGViewModel.swift; sourceTree = "<group>"; };
 		ABC614612B665E900033A5FF /* LCGRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCGRow.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				AB5018122A8A75FD00179B02 /* OperationalResearchProjectApp.swift */,
 				AB5018162A8A75FF00179B02 /* Assets.xcassets */,
 				AB5018182A8A75FF00179B02 /* Preview Content */,
+				AB9C02632B7B5539000BDAA4 /* Font Extension.swift */,
 			);
 			path = OperationalResearchProject;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				AB5018292A8ABC9C00179B02 /* Result.swift in Sources */,
 				ABC6145B2B6657320033A5FF /* LCGView.swift in Sources */,
 				AB48D3512A8D756800792DC4 /* RandomViewModel.swift in Sources */,
+				AB9C02642B7B5539000BDAA4 /* Font Extension.swift in Sources */,
 				AB5018152A8A75FD00179B02 /* ContentView.swift in Sources */,
 				ABC614652B66F3000033A5FF /* MM1PriorityView.swift in Sources */,
 				ABC614672B66F3520033A5FF /* MM1PriorityViewModel.swift in Sources */,

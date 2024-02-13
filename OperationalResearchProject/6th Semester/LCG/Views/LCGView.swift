@@ -33,9 +33,10 @@ struct LCGView: View {
             .padding(.horizontal)
         }
         .navigationTitle("LCG")
-        .navigationBarTitleDisplayMode(.large)
-        .keyboardType(.numberPad)
-        .font(.title)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .keyboardType(.decimalPad)
+        .font(.appFont())
         .padding()
         
         // Navigation to the results view
@@ -57,7 +58,6 @@ struct LCGInputView: View {
             // Placeholder text for input field
             Text(type.getPlaceHolder())
                 .padding(.horizontal)
-                .font(.title)
                 .frame(height: 50)
             
             ZStack {
@@ -70,7 +70,7 @@ struct LCGInputView: View {
                 TextField("", text: $text)
                     .padding(.leading)
             }
-            .frame(height: 80)
+            .frame(height: Constants.textFieldHeight)
             
             // Error message display
             if viewModel.errorType == type {
@@ -87,6 +87,9 @@ struct LCGTableView: View {
     @ObservedObject var viewModel: LCGViewModel
     
     var body: some View {
+        
+        TableView(headers: ["Simulation", "Z", "R (LCG)", "Random Number (X)", "Priority (Y)"])
+        /*
         if #available(iOS 17.0, *) {
             // Table view to display simulation results
             Table(viewModel.lcgModels) {
@@ -105,7 +108,65 @@ struct LCGTableView: View {
                 TableColumn("Priority (Y)", value: \.priority)
                     .alignment(.center)
             }
-            .font(.title3)
+            .tableStyle(.automatic)
+            .frame(width: UIScreen.main.bounds.width)
+        }
+         */
+    }
+    
+    /// Helper function to create column titles for the table.
+    func ColumnTitle(_ title: String) -> some View {
+        Text(title)
+            .frame(width: Constants.tableColumnWidth, height: 80, alignment: .center)
+            .multilineTextAlignment(.center)
+    }
+    
+    /// A view for displaying the table of calculated results.
+    func TableView(headers: [String]) -> some View {
+        
+        ScrollView(.vertical) {
+            
+            VStack {
+                
+                ScrollView(.horizontal) {
+                    
+                    VStack(spacing: 0) {
+                        
+                        // Headers
+                        HStack(spacing: 0) {
+                            
+                            ForEach(0..<headers.count, id: \.self) { index in
+                                ColumnTitle(headers[index])
+                                Divider()
+                            }
+                        }
+                        
+                        Divider()
+                        
+                        VStack(spacing: 0) {
+                            ForEach(viewModel.lcgModels, id: \.id) { model in
+                                
+                                // Horizontal Values
+                                HStack(spacing: 0) {
+                                    ColumnTitle(String(model.simulation))
+                                    Divider().frame(height: 80)
+                                    ColumnTitle(model.z)
+                                    Divider().frame(height: 80)
+                                    ColumnTitle(model.r)
+                                    Divider().frame(height: 80)
+                                    ColumnTitle(model.random)
+                                    Divider().frame(height: 80)
+                                    ColumnTitle(model.priority)
+                                    Divider().frame(height: 80)
+                                }
+                                
+                                // Then Line Seperator
+                                Divider()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

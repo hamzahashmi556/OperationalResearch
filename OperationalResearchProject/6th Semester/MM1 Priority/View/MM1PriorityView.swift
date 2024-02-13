@@ -7,10 +7,28 @@
 
 import SwiftUI
 
+struct Constants {
+    private init() {}
+    
+    static let textFieldHeight: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 80 : 50
+    
+    static let tableColumnWidth: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 200 : 100
+    
+    static let gantChartSize: CGSize = UIDevice.current.userInterfaceIdiom == .pad ? CGSize(width: 220, height: 100) : CGSize(width: 110, height: 50)
+}
+
 /// A view for MM1 Priority scheduling with user inputs and visualizations.
 struct MM1PriorityView: View {
     
     @StateObject var viewModel = MM1PriorityViewModel()
+    
+    @FocusState var isFocusedArrival: Bool
+    @FocusState var isFocusedService: Bool
+    @FocusState var isFocusedPriority: Bool
+    
+    
+    
+    
     
     var body: some View {
         List {
@@ -30,8 +48,12 @@ struct MM1PriorityView: View {
                         
                         TextField("e.g: 10, 20, 30, 40", text: $viewModel.inputArrivals)
                             .padding(.leading)
+                            .focused($isFocusedArrival)
+                            .onSubmit {
+                                self.isFocusedService.toggle()
+                            }
                     }
-                    .frame(height: 80)
+                    .frame(height: Constants.textFieldHeight)
                     
                     if !viewModel.arrivalMessage.isEmpty {
                         Text(viewModel.arrivalMessage)
@@ -53,8 +75,12 @@ struct MM1PriorityView: View {
                         
                         TextField("e.g: 10, 20, 30, 40", text: $viewModel.inputServices)
                             .padding(.leading)
+                            .focused($isFocusedService)
+                            .onSubmit {
+                                self.isFocusedPriority.toggle()
+                            }
                     }
-                    .frame(height: 80)
+                    .frame(height: Constants.textFieldHeight)
                     
                     if !viewModel.serviceMessage.isEmpty {
                         Text(viewModel.serviceMessage)
@@ -76,9 +102,10 @@ struct MM1PriorityView: View {
                             .foregroundStyle(viewModel.priorityMessage.isEmpty ? .green : .red)
                         
                         TextField("e.g: 10, 20, 30, 40", text: $viewModel.inputPriorities)
+                            .focused($isFocusedPriority)
                             .padding(.leading)
                     }
-                    .frame(height: 80)
+                    .frame(height: Constants.textFieldHeight)
                     
                     if !viewModel.priorityMessage.isEmpty {
                         Text(viewModel.priorityMessage)
@@ -95,14 +122,19 @@ struct MM1PriorityView: View {
                 GantChartView()
             }
         }
-        .font(.title)
+        .navigationTitle("MM1 Priority")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .keyboardType(.numbersAndPunctuation)
+        .font(.appFont())
         .bold()
     }
     
     /// Helper function to create column titles for the table.
     func ColumnTitle(_ title: String) -> some View {
         Text(title)
-            .frame(width: 200, height: 50, alignment: .center)
+            .frame(width: Constants.tableColumnWidth, height: 50, alignment: .center)
+            .multilineTextAlignment(.center)
     }
     
     /// A view for displaying the table of calculated results.
@@ -148,7 +180,7 @@ struct MM1PriorityView: View {
                             Divider()
                             ColumnTitle(customer.getWaitTime())
                         }
-                        .foregroundStyle(customer.priority == .high ? .red : customer.priority == .medium ? .yellow : .green)
+                        //.foregroundStyle(customer.priority == .high ? .red : customer.priority == .medium ? .yellow : .green)
 
                         
                         Divider()
@@ -162,13 +194,13 @@ struct MM1PriorityView: View {
     func GantChartView() -> some View {
         
         ScrollView(.horizontal) {
-            HStack {
+            HStack(spacing: 0) {
                 ForEach(viewModel.grantChartModels) { model in
                     if let customer = viewModel.calculatedCustomers.first(where: { "\($0.id)" == model.getID() }) {
                         
                         VStack(spacing: 0) {
                             
-                            Text("Customer ID: \(model.getID())")
+                            Text("ID: \(model.getID())")
                             
                             Divider()
                                 .padding(.vertical, 5)
@@ -181,12 +213,12 @@ struct MM1PriorityView: View {
                             }
                             .padding(.horizontal)
                         }
-                        .frame(width: 220, height: 100, alignment: .center)
+                        .frame(width: Constants.gantChartSize.width, height: Constants.gantChartSize.height, alignment: .center)
                         .background {
-                            RoundedRectangle(cornerRadius: 10.0)
+                            RoundedRectangle(cornerRadius: 0)
                                 .stroke()
                         }
-                        .foregroundStyle(customer.priority == .high ? .red : customer.priority == .medium ? .yellow : .green)
+                        //.foregroundStyle(customer.priority == .high ? .red : customer.priority == .medium ? .yellow : .green)
                     }
                 }
             }

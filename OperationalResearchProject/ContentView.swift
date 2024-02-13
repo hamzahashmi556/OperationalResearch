@@ -16,7 +16,8 @@ struct ContentView: View {
     @State var foregroundColor = Color.black
     @State var backgroundColor = Color.white
     
-    @State var imageSize: CGFloat = 80.0
+    let imageSize: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 80.0 : 50
+    let buttonHeight: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 100 : 50
     
     var body: some View {
         
@@ -37,28 +38,14 @@ struct ContentView: View {
                     // Top Bar
                     HStack {
                         
-                        Image(systemName: "scissors.circle")
-                            .resizable()
-                            .frame(width: imageSize, height: imageSize)
-                            .foregroundStyle(foregroundColor)
-                            .rotationEffect(.degrees(-90))
                         
-                        Text("STYLO HAIR SALOON")
-                            .font(.system(size: 50, weight: .bold))
-                            .padding()
-                            .cornerRadius(20)
-                            .foregroundStyle(foregroundColor)
+//                        Text("STYLO HAIR SALOON")
+//                            .padding()
+//                            .cornerRadius(20)
+//                            .foregroundStyle(foregroundColor)
                         
                         
-                        Circle()
-                            .frame(width: imageSize, height: imageSize)
-                            .foregroundStyle(foregroundColor)
-                            .overlay {
-                                Image(systemName: "comb")
-                                    .scaleEffect(2)
-                                    .rotationEffect(.degrees(135))
-                                    .foregroundColor(backgroundColor)
-                            }
+                        
                     }
                     
                     Spacer()
@@ -69,7 +56,6 @@ struct ContentView: View {
                         VStack(spacing: 10) {
                             
                             Text("Group Members")
-                                .font(.system(size: 50, weight: .bold))
                             
                             NameView(name: "Arham Sharif", seatNo: "EB21102022")
                             
@@ -78,7 +64,6 @@ struct ContentView: View {
                             NameView(name: "Muhammad Riaz Akram", seatNo: "EB21102077")
                             
                         }
-                        .font(.system(size: 30, weight: .medium))
                     }
                     .frame(width: width - 80)
                     .padding()
@@ -118,7 +103,34 @@ struct ContentView: View {
                     .cornerRadius(25)
                 }
             }
+            .navigationTitle("STYLO HAIR SALOON")
+            .toolbarColorScheme(.light, for: .navigationBar)
+            .navigationBarTitleDisplayMode(.inline)
+//            .toolbar(content: {
+//                ToolbarItem(placement: .topBarLeading) {
+//                    Image(systemName: "scissors.circle")
+//                        .resizable()
+////                        .frame(width: imageSize, height: imageSize)
+//                        .scaledToFit()
+//                        .foregroundStyle(foregroundColor)
+//                        .rotationEffect(.degrees(-90))
+//
+//                }
+//                
+//                ToolbarItem(placement: .topBarTrailing) {
+//                    Circle()
+////                        .frame(width: imageSize, height: imageSize)
+//                        .foregroundStyle(foregroundColor)
+//                        .overlay {
+//                            Image(systemName: "comb")
+//                                .scaleEffect(2)
+//                                .rotationEffect(.degrees(135))
+//                                .foregroundColor(backgroundColor)
+//                        }
+//                }
+//            })
         }
+        .font(.appFont())
     }
     
     func NameView(name: String, seatNo: String) -> some View {
@@ -140,7 +152,7 @@ struct ContentView: View {
             
             Text(title)
                 .frame(width: 250, alignment: .leading)
-                .font(.system(size: 30, weight: .bold))
+                .padding(.leading)
             
             Spacer()
             
@@ -151,7 +163,7 @@ struct ContentView: View {
         }
         .foregroundColor(.white)
         .padding(.horizontal, 50)
-        .frame(width: width * 0.8, height: 100)
+        .frame(width: width * 0.8, height: buttonHeight)
         .background(.black.opacity(0.7))
         .cornerRadius(50)
     }
