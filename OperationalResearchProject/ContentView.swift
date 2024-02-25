@@ -103,31 +103,8 @@ struct ContentView: View {
                     .cornerRadius(25)
                 }
             }
-            .navigationTitle("STYLO HAIR SALOON")
+            .navigationTitle("Simulation & Modelling")
             .navigationBarTitleDisplayMode(.inline)
-//            .toolbar(content: {
-//                ToolbarItem(placement: .topBarLeading) {
-//                    Image(systemName: "scissors.circle")
-//                        .resizable()
-////                        .frame(width: imageSize, height: imageSize)
-//                        .scaledToFit()
-//                        .foregroundStyle(foregroundColor)
-//                        .rotationEffect(.degrees(-90))
-//
-//                }
-//                
-//                ToolbarItem(placement: .topBarTrailing) {
-//                    Circle()
-////                        .frame(width: imageSize, height: imageSize)
-//                        .foregroundStyle(foregroundColor)
-//                        .overlay {
-//                            Image(systemName: "comb")
-//                                .scaleEffect(2)
-//                                .rotationEffect(.degrees(135))
-//                                .foregroundColor(backgroundColor)
-//                        }
-//                }
-//            })
         }
         .font(.appFont())
     }

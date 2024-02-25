@@ -14,7 +14,7 @@ struct Constants {
     
     static let tableColumnWidth: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 200 : 100
     
-    static let gantChartSize: CGSize = UIDevice.current.userInterfaceIdiom == .pad ? CGSize(width: 220, height: 100) : CGSize(width: 110, height: 50)
+    static let gantChartSize: CGSize = UIDevice.current.userInterfaceIdiom == .pad ? CGSize(width: 220, height: 100) : CGSize(width: 150, height: 50)
 }
 
 /// A view for MM1 Priority scheduling with user inputs and visualizations.
